@@ -95,6 +95,7 @@ void demo_grades2()
     cout << "Your median is " << median << endl;
     // write the result
     streamsize prec = cout.precision();
+    // auto prec = cout.precision();
 
     // 迭代vector
     for (auto it = homework.begin(); it != homework.end(); it++)
