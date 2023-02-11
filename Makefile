@@ -1,17 +1,27 @@
 
 CC = g++
 CFLAGS = -Wall -g -I./include
-CPP_FLAGS='-std=c++11'
+CPP_FLAGS='-std=c++17'
 
 ACPP=src/acpp
 BINDIR=bin
 
 .PHONY: all clean
 
-all: bin/ch4 bin/ch5
+all: bin/ch1 bin/ch2 bin/ch3 bin/ch4 bin/ch5
 
 clean:
 	rm -rf $(ACPP)/*.o
+	rm -rf $(BINDIR)/*
+
+$(BINDIR)/ch1: $(ACPP)/ch1.cpp 
+	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(BINDIR)/ch2: $(ACPP)/ch2.cpp 
+	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(BINDIR)/ch3: $(ACPP)/ch3.cpp
+	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
 
 $(ACPP)/grade.o: $(ACPP)/grade.cpp 
 	$(CC) -c $< -o $@ $(CFLAGS) $(CPP_FLAGS)
