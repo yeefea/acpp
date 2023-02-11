@@ -3,6 +3,7 @@
 #include <cctype>
 #include "Student_info.h"
 #include "grade.h"
+#include "util.h"
 
 using std::cin;
 using std::cout;
@@ -271,13 +272,6 @@ void demo_string()
     }
 }
 
-void describe_string_vector(const vector<string> &strs)
-{
-    for (auto iter = strs.begin(); iter != strs.end(); ++iter)
-    {
-        cout << *iter << endl;
-    }
-}
 void demo_vector_concatenate()
 {
 
