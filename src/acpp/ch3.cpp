@@ -48,8 +48,6 @@ void demo_grades()
          << setprecision(prec) << endl;
 }
 
-
-
 void demo_grades2()
 {
     // ask for and read the student's name
@@ -65,7 +63,7 @@ void demo_grades2()
     cout << "Enter all your homework grades, "
             "followed by end-of-file: ";
     // the number and sum of grades read so far
-    int count = 0;
+    // int count = 0;
     double sum = 0;
     // a variable into which to read
     double x;
@@ -80,11 +78,34 @@ void demo_grades2()
         homework.push_back(x);
     }
     sort(homework.begin(), homework.end());
+
+    auto size = homework.size();
+    auto mid = size / 2;
+    double median;
+
+    if (size == 0)
+    {
+        median = 0.0;
+    }
+    else
+    {
+        median = size % 2 == 0 ? (homework[mid] + homework[mid - 1]) / 2 : homework[mid];
+    }
+
+    cout << "Your median is " << median << endl;
     // write the result
     streamsize prec = cout.precision();
 
+    // 迭代vector
+    for (auto it = homework.begin(); it != homework.end(); it++)
+    {
+        sum += *it;
+    }
+
+    double avg = homework.size() == 0 ? 0.0 : sum / homework.size();
+
     cout << "Your final grade is " << setprecision(3)
-         << 0.2 * midterm + 0.4 * final + 0.4 * sum / count
+         << 0.2 * midterm + 0.4 * final + 0.4 * avg
          << setprecision(prec) << endl;
 }
 
