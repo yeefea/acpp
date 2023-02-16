@@ -2,22 +2,34 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <numeric>
 #include <cctype>
+#include <stdexcept>
+#include <iterator>
+#include <iomanip>
 #include "util.h"
 #include "Student_info.h"
+#include "grade.h"
+#include "median.h"
 
-using std::cin;
-using std::copy;
-using std::cout;
-using std::endl;
-using std::string;
-using std::vector;
-
-using std::back_inserter;
-using std::find;
-using std::find_if;
-using std::isalnum;
-using std::search;
+using std::accumulate;     // <numeric>
+using std::back_inserter;  // <iterator>
+using std::cin;            // <iostream>
+using std::copy;           // <algorithm>
+using std::cout;           // <iostream>
+using std::domain_error;   // <stdexcept>
+using std::endl;           // <iostream>
+using std::find;           // <algorithm>
+using std::find_if;        // <algorithm>
+using std::isalnum;        // <cctype>
+using std::ostream;        // <iostream>
+using std::remove_copy;    // <algorithm>
+using std::remove_copy_if; // <algorithm>
+using std::search;         // <algorithm>
+using std::setprecision;   // <iomanip>
+using std::string;         // <string>
+using std::transform;      // <algorithm>
+using std::vector;         // <vector>
 
 void demo_copy()
 {
@@ -39,8 +51,10 @@ void demo_copy()
     while (begin != end){
         *out++ = *begin++
     }
+
+    copy+back_inserter类似于Go语言的append
     */
-    copy(vec2.begin(), vec2.end(), back_inserter(vec1));
+    copy(vec2.begin(), vec2.end(), back_inserter(vec1)); // vec1 = append(vec1, vec2...)
     describe_int_vector(vec1);
 
     // vec2.insert(vec2.end(), vec1.begin(), vec1.end());
@@ -192,6 +206,223 @@ bool did_all_hw(const Student_info &s)
 {
     return ((find(s.homework.begin(), s.homework.end(), 0) == s.homework.end()));
 }
+double grade_aux(const Student_info &s)
+{
+    try
+    {
+        return grade(s);
+    }
+    catch (domain_error)
+    {
+        return grade(s.midterm, s.final, 0);
+    }
+}
+
+double median_analysis(const vector<Student_info> &students)
+{
+    vector<double> grades;
+
+    // 因为grade函数有重载，所以无法作为transform的参数
+    transform(students.begin(), students.end(), back_inserter(grades), grade_aux);
+    return median(grades);
+}
+
+void write_analysis(ostream &out,
+                    const string &name,
+                    double analysis(const vector<Student_info> &),
+                    const vector<Student_info> &did,
+                    const vector<Student_info> &didnt)
+{
+    out << name << ": median(did) = " << analysis(did) << ", median(didnt) = " << analysis(didnt) << endl;
+}
+
+double average(const vector<double> &v)
+{
+    // 注意这里一定不能写0，要写0.0
+    return accumulate(v.begin(), v.end(), 0.0) / v.size();
+}
+double average_grade(const Student_info &s)
+{
+    return grade(s.midterm, s.final, average(s.homework));
+}
+
+double average_analysis(const vector<Student_info> &students)
+{
+    vector<double> grades;
+    transform(students.begin(), students.end(), back_inserter(grades), average_grade);
+    return median(grades);
+}
+double optimistic_median(const Student_info &s)
+{
+    vector<double> nonzero;
+    // remove_copy 类似于filter
+    remove_copy(s.homework.begin(), s.homework.end(), back_inserter(nonzero), 0);
+    if (nonzero.empty())
+    {
+        return grade(s.midterm, s.final, 0.0);
+    }
+    return grade(s.midterm, s.final, median(nonzero));
+}
+
+double optimistic_median_analysis(const vector<Student_info> &s)
+{
+    vector<double> grades;
+    transform(s.begin(), s.end(), back_inserter(grades), optimistic_median);
+    return median(grades);
+}
+
+void demo_function_parameter()
+{
+
+    // students who did and didn't do all their homework
+    vector<Student_info> did, didnt;
+    // read the student records and partition them
+    Student_info student;
+    while (read(cin, student))
+    {
+        if (did_all_hw(student))
+            did.push_back(student);
+        else
+            didnt.push_back(student);
+    }
+    // verify that the analyses will show us something
+    if (did.empty())
+    {
+        cout << "No student did all the homework!" << endl;
+        return;
+    }
+    if (didnt.empty())
+    {
+        cout << "Every student did all the homework!" << endl;
+        return;
+    }
+    // do the analyses
+    auto prec = cout.precision();
+    setprecision(3);
+    write_analysis(cout, "median", median_analysis, did, didnt);
+    write_analysis(cout, "average", average_analysis, did, didnt);
+    write_analysis(cout, "median of homework turned in",
+                   optimistic_median_analysis, did, didnt);
+    setprecision(prec);
+}
+
+bool pgrade(const Student_info &s)
+{
+    return !fgrade(s);
+}
+vector<Student_info> extract_fails(
+    vector<Student_info> &students)
+{
+    vector<Student_info> fail;
+    remove_copy_if(students.begin(), students.end(), back_inserter(fail), pgrade);
+    students.erase(
+        remove_if(students.begin(), students.end(), fgrade),
+        students.end());
+    return fail;
+}
+
+bool is_zero(int x)
+{
+    return x == 0;
+}
+
+bool is_even(int x)
+{
+    return x % 2 == 0;
+}
+
+void demo_remove_copy_if()
+{
+    // 原地删除，把满足remove条件的一到末尾，不满足的移到前面。并不会缩小vector size，需要调用erase
+    // remove
+    cout << ">>> remove" << endl;
+    vector<int> v = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    auto new_end = remove(v.begin(), v.end(), 3);
+    describe_int_vector(v);
+    v.erase(new_end, v.end()); // shrink
+    describe_int_vector(v);
+
+    // remove_if
+    cout << ">>> remove_if" << endl;
+    new_end = remove_if(v.begin(), v.end(), is_zero);
+    describe_int_vector(v);
+    v.erase(new_end, v.end()); // shrink
+    describe_int_vector(v);
+
+    vector<int> new_v;
+    // copy
+    cout << ">>> copy" << endl;
+    copy(v.begin(), v.end(), back_inserter(new_v));
+    describe_int_vector(new_v);
+
+    // copy_if
+    new_v.clear();
+    cout << ">>> copy_if" << endl;
+    copy_if(v.begin(), v.end(), back_inserter(new_v), is_even);
+    describe_int_vector(new_v);
+
+    // 原来的vector不动
+    // 效果是新的vector里去除了给定的元素，类似于filter out的效果
+    // 例子：
+    // [0,1,2,3,4,5,6,7,8,9] remove_copy_if is_even
+    // 得到新的vector[1,3,5,7,9]，is_even的数字不会被拷贝出来
+    // remove copy
+    cout << ">>> remove_copy" << endl;
+    new_v.clear();
+    // filter out 2
+    remove_copy(v.begin(), v.end(), back_inserter(new_v), 2); // filter out 2
+    describe_int_vector(new_v);
+
+    cout << ">>> remove_copy_if" << endl;
+    new_v.clear();
+    // filter out even numbers
+    remove_copy_if(v.begin(), v.end(), back_inserter(new_v), is_even);
+    describe_int_vector(new_v);
+}
+
+vector<Student_info>
+extract_fails_partition(vector<Student_info> &students)
+{
+    vector<Student_info>::iterator iter =
+        stable_partition(students.begin(), students.end(), pgrade);
+    vector<Student_info> fail(iter, students.end());
+    students.erase(iter, students.end());
+
+    return fail;
+}
+string getname(const Student_info &s)
+{
+    return s.name;
+}
+void demo_partition()
+{
+    vector<Student_info> students;
+    students.push_back(Student_info{"test1", 99, 98, {91, 92, 93, 94, 95}});
+    students.push_back(Student_info{"test2", 59, 58, {1, 2, 3, 4, 5}});
+
+    auto fails = extract_fails_partition(students);
+    vector<string> students_pass, students_fail;
+    transform(students.begin(), students.end(), back_inserter(students_pass), getname);
+    transform(fails.begin(), fails.end(), back_inserter(students_fail), getname);
+
+    cout << "students pass: ";
+    describe_string_vector(students_pass);
+    cout << "students fail: ";
+    describe_string_vector(students_fail);
+    // describe_string_vector
+
+    int arr[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int true_arr[5] = {0};
+    int false_arr[5] = {0};
+
+    std::partition_copy(std::begin(arr), std::end(arr),
+                        std::begin(true_arr), std::begin(false_arr),
+                        [](int i)
+                        { return 4 < i; });
+
+    cout << "true_arr:  " << true_arr << endl;
+    cout << "false_arr: " << false_arr << endl;
+}
 
 int main()
 {
@@ -199,5 +430,8 @@ int main()
     demo_find_if();
     demo_equal();
     demo_find_search();
+    // demo_function_parameter();
+    demo_remove_copy_if();
+    demo_partition();
     return 0;
 }

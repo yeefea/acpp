@@ -22,7 +22,7 @@ void describe_int_vector(const vector<int> &strs)
         }
         cout << " ";
     }
-    cout << "]" << endl;
+    cout << "] size: " << strs.size() << endl;
 }
 
 void describe_string_vector(const vector<string> &strs)
@@ -38,5 +38,5 @@ void describe_string_vector(const vector<string> &strs)
         }
         cout << " ";
     }
-    cout << "]" << endl;
+    cout << "] size: " << strs.size() << endl;
 }

@@ -12,11 +12,6 @@ using std::list;
 using std::string;
 using std::vector;
 
-bool fgrade(const Student_info &s)
-{
-    return grade(s) < 60;
-}
-
 vector<Student_info> extract_fails1(vector<Student_info> &students)
 {
     vector<Student_info> pass, fail;
