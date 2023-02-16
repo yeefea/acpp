@@ -11,6 +11,7 @@ using std::endl;
 using std::list;
 using std::string;
 using std::vector;
+using std::getline; // <iostream>
 
 vector<Student_info> extract_fails1(vector<Student_info> &students)
 {
