@@ -31,6 +31,23 @@ using std::string;         // <string>
 using std::transform;      // <algorithm>
 using std::vector;         // <vector>
 
+template <typename T>
+void describe_vector(const std::vector<T> &items)
+{
+    cout << "[ ";
+    for (auto iter = items.begin(); iter != items.end();)
+    {
+        cout << "\"" << *iter << "\"";
+        ++iter;
+        if (iter != items.end())
+        {
+            cout << ",";
+        }
+        cout << " ";
+    }
+    cout << "] size: " << items.size() << endl;
+}
+
 void demo_copy()
 {
     vector<int> vec0;
@@ -338,9 +355,9 @@ void demo_remove_copy_if()
     cout << ">>> remove" << endl;
     vector<int> v = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     auto new_end = remove(v.begin(), v.end(), 3);
-    describe_int_vector(v);
+    describe_vector(v);
     v.erase(new_end, v.end()); // shrink
-    describe_int_vector(v);
+    describe_vector(v);
 
     // remove_if
     cout << ">>> remove_if" << endl;
