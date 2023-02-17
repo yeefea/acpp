@@ -31,23 +31,6 @@ using std::string;         // <string>
 using std::transform;      // <algorithm>
 using std::vector;         // <vector>
 
-template <typename T>
-void describe_vector(const std::vector<T> &items)
-{
-    cout << "[ ";
-    for (auto iter = items.begin(); iter != items.end();)
-    {
-        cout << "\"" << *iter << "\"";
-        ++iter;
-        if (iter != items.end())
-        {
-            cout << ",";
-        }
-        cout << " ";
-    }
-    cout << "] size: " << items.size() << endl;
-}
-
 void demo_copy()
 {
     vector<int> vec0;
