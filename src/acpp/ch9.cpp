@@ -1,18 +1,14 @@
 #include <string>
 #include <iostream>
 #include "Student_info.h"
-#include "grade.h"
 
-using std::istream;
-istream &Student_info::read(istream &in)
+using namespace std;
+int main()
 {
-    in >> name >> midterm >> final;
-    read_hw(in, homework);
-    return in;
-}
+    Student_info s;
+    s.read(std::cin);
 
-double Student_info::grade() const
-{
-    // ::表示非成员函数
-    return ::grade(midterm, final, homework);
+    cout << s.get_name() << endl;
+
+    return 0;
 }

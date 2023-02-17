@@ -59,3 +59,9 @@ $(BINDIR)/ch7: $(ACPP)/ch7.cpp
 
 $(BINDIR)/ch8: $(ACPP)/ch8.cpp
 	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(ACPP)/ch9.o: $(ACPP)/ch9.cpp 
+	$(CC) -c $< -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(BINDIR)/ch9: $(ACPP)/ch9.o $(ACPP)/Student_info.o $(ACPP)/median.o $(ACPP)/grade.o
+	$(CC) $^ -o $@ $(CFLAGS) $(CPP_FLAGS)
