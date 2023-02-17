@@ -22,6 +22,7 @@ public:
 
     */
     Student_info() : midterm(0), final(0){}; // 默认constructor，初始化列表
+    Student_info(std::string nm, double mid, double fin) : n(nm), midterm(mid), final(fin){};
     Student_info(std::istream &is) { read(is); };
     std::string name;
     std::string get_name() const;

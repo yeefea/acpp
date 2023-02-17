@@ -414,8 +414,8 @@ string getname(const Student_info &s)
 void demo_partition()
 {
     vector<Student_info> students;
-    students.push_back(Student_info{"test1", 99, 98, {91, 92, 93, 94, 95}});
-    students.push_back(Student_info{"test2", 59, 58, {1, 2, 3, 4, 5}});
+    students.push_back(Student_info{"test1", 99, 98});
+    students.push_back(Student_info{"test2", 59, 58});
 
     auto fails = extract_fails_partition(students);
     vector<string> students_pass, students_fail;
