@@ -5,10 +5,9 @@
 using namespace std;
 int main()
 {
-    Student_info s;
-    s.read(std::cin);
+    Student_info s(cin);
 
-    cout << s.get_name() << endl;
+    cout << s.describe() << endl;
 
     return 0;
 }

@@ -1,8 +1,10 @@
+#include <string>
 #include "Student_info.h"
 #include "grade.h"
 
 using std::istream;
 using std::string;
+using std::to_string;
 using std::vector;
 
 bool Student_info::valid() const { return !homework.empty(); }
@@ -11,6 +13,7 @@ istream &Student_info::read(istream &in)
 {
     in >> name >> midterm >> final;
     read_hw(in, homework);
+    n = name;
     return in;
 }
 
@@ -23,6 +26,11 @@ double Student_info::grade() const
 string Student_info::get_name() const
 {
     return n;
+}
+
+string Student_info::describe() const
+{
+    return "name: " + n + "\nmidterm: " + to_string(midterm) + "\nfinal: " + to_string(final);
 }
 
 bool compare(const Student_info &x, const Student_info &y)
