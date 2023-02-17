@@ -6,6 +6,15 @@
 #include <stdexcept>
 #include <cstdlib>
 
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/rapidjson.h"
+#include "rapidjson/document.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/memorystream.h"
+
+using namespace rapidjson;
+
 using std::cin;
 using std::cout;
 using std::domain_error;
@@ -117,6 +126,13 @@ void demo_xref()
 
 void demo_map()
 {
+    Document document;
+    Document::AllocatorType &allocator = document.GetAllocator();
+    Value root(kObjectType);
+
+    Value key(kStringType);
+    Value value(kStringType);
+
     cout << "word count" << endl;
 
     map<string, int> counters;
@@ -133,7 +149,18 @@ void demo_map()
         // first: key
         // second: value
         cout << it->first << "\toccurred " << it->second << "times" << endl;
+        // auto val = std::to_string(it->second);
+        key.SetString(it->first.c_str(), allocator);
+        value.SetInt(it->second);
+        root.AddMember(key, value, allocator);
     }
+
+    StringBuffer buffer;
+    PrettyWriter<StringBuffer> writer(buffer);
+    root.Accept(writer);
+
+    auto js = buffer.GetString();
+    cout << js << endl;
 }
 
 typedef vector<string> Rule;
