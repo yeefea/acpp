@@ -74,3 +74,6 @@ $(BINDIR)/ch10: $(ACPP)/ch10.o $(ACPP)/Student_info.o $(ACPP)/median.o $(ACPP)/g
 
 $(BINDIR)/ch11: $(ACPP)/ch11.cpp 
 	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(BINDIR)/ch12: $(ACPP)/ch12.cpp 
+	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
