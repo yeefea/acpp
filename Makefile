@@ -8,7 +8,9 @@ BINDIR=bin
 
 .PHONY: all clean
 
-all: bin/ch1 bin/ch2 bin/ch3 bin/ch4 bin/ch5 bin/ch6 bin/ch7 bin/ch8 bin/ch9 bin/ch10 bin/ch11 bin/ch12 bin/ch13
+all: bin/ch1 bin/ch2 bin/ch3 bin/ch4 bin/ch5 \
+ bin/ch6 bin/ch7 bin/ch8 bin/ch9 bin/ch10 \
+ bin/ch11 bin/ch12 bin/ch13 bin/ch14 bin/ch15
 
 clean:
 	rm -rf $(ACPP)/*.o
@@ -86,3 +88,10 @@ $(ACPP)/ch13.o: $(ACPP)/ch13.cpp
 
 $(BINDIR)/ch13: $(ACPP)/ch13.o $(ACPP)/Student_info.o $(ACPP)/median.o $(ACPP)/grade.o
 	$(CC) $^ -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(ACPP)/ch14.o: $(ACPP)/ch14.cpp 
+	$(CC) -c $< -o $@ $(CFLAGS) $(CPP_FLAGS)
+
+$(BINDIR)/ch14: $(ACPP)/ch14.o $(ACPP)/median.o $(ACPP)/grade.o
+	$(CC) $^ -o $@ $(CFLAGS) $(CPP_FLAGS)
+

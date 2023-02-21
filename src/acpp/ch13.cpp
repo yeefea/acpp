@@ -40,7 +40,7 @@ string Core::name() const { return n; }
 
 double Core::grade() const
 {
-    // cout << "Core grade" << endl;
+    cout << "calling grade() from Core" << endl;
     return ::grade(midterm, final, homework);
 }
 
@@ -89,7 +89,7 @@ istream &Grad::read(istream &in)
 
 double Grad::grade() const
 {
-    // cout << "Grad grade" << endl;
+    cout << "calling grade() from Grad" << endl;
     return min(Core::grade(), thesis); // Core::类似于python的super
 }
 
@@ -114,6 +114,31 @@ bool compare_Core_ptrs(const Core *cp1, const Core *cp2)
 }
 void demo_inheritance()
 {
+}
+
+void demo_dynamic_binding()
+{
+    Core c;
+    Grad g;
+    for (int i = 1; i <= 10; i++)
+    {
+        c.homework.push_back(i);
+        g.homework.push_back(i * 2);
+    }
+    Core *p = nullptr;
+    Core &r = g;
+    cout << "c statically bound to Core" << endl;
+    c.grade(); // statically bound to Core::grade()
+    cout << "g statically bound to Grad" << endl;
+    g.grade(); // statically bound to Grad::grade()
+    cout << "p dynamically bound to Core" << endl;
+    p = &c;
+    p->grade(); // dynamically bound, depending on the type of the object to which p points
+    cout << "p dynamically bound to Grad" << endl;
+    p = &g;
+    p->grade(); // dynamically bound, depending on the type of the object to which p points
+    cout << "r dynamically bound to Grad" << endl;
+    r.grade(); // dynamically bound, depending on the type of the object to which r refers
 }
 
 void demo_polymorphism()
@@ -257,7 +282,7 @@ istream &New_Student_info::read(istream &is)
 New_Student_info::New_Student_info(const New_Student_info &s) : cp(0)
 {
     if (s.cp)
-        cp = s.cp->clone();
+        cp = s.cp->clone(); // Core和Grad需要实现clone函数
 }
 New_Student_info &New_Student_info::operator=(const New_Student_info &s)
 {
@@ -265,7 +290,7 @@ New_Student_info &New_Student_info::operator=(const New_Student_info &s)
     {
         delete cp;
         if (s.cp)
-            cp = s.cp->clone();
+            cp = s.cp->clone(); // Core和Grad需要实现clone函数
         else
             cp = 0;
     }
@@ -334,6 +359,7 @@ void demo_subtileties()
 }
 int main(int argc, char **argv)
 {
+    demo_dynamic_binding();
     demo_polymorphism();
     demo_polimorphism2();
     demo_handle_class();
