@@ -95,3 +95,5 @@ $(ACPP)/ch14.o: $(ACPP)/ch14.cpp
 $(BINDIR)/ch14: $(ACPP)/ch14.o $(ACPP)/median.o $(ACPP)/grade.o
 	$(CC) $^ -o $@ $(CFLAGS) $(CPP_FLAGS)
 
+$(BINDIR)/ch15: $(ACPP)/ch15.cpp 
+	$(CC) $< -o $@ $(CFLAGS) $(CPP_FLAGS)
