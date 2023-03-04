@@ -133,7 +133,7 @@ void demo_initialization()
 
   std::cout << i << std::endl;
 
-  double salary = 999.9, wage = salary;
+  double salary = 999.9, wage = salary; // 一行里面定义多个变量，左边定义好之后右边马上就能用了！
   std::cout << "salary = wage = " << wage << std::endl;
 }
 void demo_scope()
@@ -202,23 +202,147 @@ void demo_const()
 void demo_const_pointer()
 {
 
-  const double cd = 3.14;
+  const double cd = 3.14; // top-level const
   double d = 3.15;
   double *dp = &d;
   // double *pd = &cd; error
-  const double *cdp = &cd; // ok, cdp can be changed
+  const double *cdp = &cd; // ok, cdp can be changed  low-level const
   // *cdp = 123.4;  // error
   cdp = nullptr; // ok
   cdp = &cd;     // ok
 
-  double *const cp = &d; // ok, cp itself can not be changed
+  double *const cp = &d; // ok, cp itself can not be changed top-level const
   // cp = nullptr;  // error
   *cp = 123.4; // ok
 
-  const double *const cdcp = &d;
+  const double *const cdcp = &d; // top and low-level const
   // cdcp = nullptr;  // error
   // *cdcp = 123.4;  // error
+  cdp = cdcp; // 顶层const依然可以被拷贝，只要底层const合适即可。底层非const可以转成const，反之则不行
   std::cout << OUTPUT_VAL(*cdcp) << std::endl;
+}
+
+constexpr int size()
+{
+  return 10;
+}
+int j = 100;
+constexpr int i = 42;
+void demo_constexpr()
+{
+  constexpr int mf = 20;
+  constexpr int limit = mf + 1;
+  constexpr int sz = size();
+  // constexpr指针都是顶层const，初始化后不能修改！！！和const int *ptr不一样！！！
+  constexpr int *top_const = &j; // 函数体内的变量地址只能在运行时确定，constexpr指针的地址必须在编译期确定，只能用全局变量的地址。
+  *top_const = 13;               // 这样是可以的，给i赋值
+  // top_const = nullptr;  // error
+  constexpr int *must_null = nullptr; // 否则只能用nullptr初始化
+  constexpr const int *cpi = &i;      // 指向常量i
+  constexpr int *cpj = &j;            // 指向变量j
+  std::cout << OUTPUT_VAL(mf) << " "
+            << OUTPUT_VAL(limit) << " "
+            << OUTPUT_VAL(sz) << " "
+            << OUTPUT_VAL(*top_const) << " "
+            << OUTPUT_VAL(*cpi) << " "
+            << OUTPUT_VAL(*cpj) << std::endl;
+}
+
+void demo_typedef()
+{
+  typedef double wages;
+  typedef wages base, *p; // p的类型是double* ....无语
+
+  double d = 123.4;
+  p xxx = &d;
+
+  using MyDouble = double;
+  using MyDoublePtr = double *;
+
+  MyDoublePtr mdp = &d;
+
+  typedef char *pstring;
+  char s[] = "hello world";
+  const pstring cstr = s; // const (char*) cstr  // 顶层const，cstr本身不能改
+  const pstring *ps;      // const (char*) *ps  // 底层const，ps是指针，ps本身可以改，但指向的不能改指向的东西
+
+  // 把const pstring cstr理解为 const char *cstr 是错的！！！
+
+  ps = &cstr;
+  std::string ss1(cstr, cstr + strlen(cstr));
+  std::string ss2(*ps, *ps + strlen(*ps));
+
+  std::cout << OUTPUT_VAL(ss1) << " " << OUTPUT_VAL(ss2) << std::endl;
+}
+
+void demo_auto()
+{
+
+  auto i = 0, *pi = &i; // 类型一致可以推理出来
+  // auto sz = 0, pi = 3.14;  // 类型不一致，error
+
+  // auto会忽略顶层const，保留底层const
+
+  const int ci = i, &cr = ci;
+  auto b = ci;  // b: int b
+  auto c = cr;  // c: int c
+  auto d = &i;  // d: int* d
+  auto e = &ci; // e: const int* e
+
+  // auto 明确指出顶层const
+  const auto f = ci;   // 明确指出顶层const, f: const int
+  const auto ff = &ci; // 明确指出顶层const, ff: const int* const
+
+  // auto 引用类型
+  auto &g = ci; // g: const &int 常量的引用
+  // auto &h = 42;  // error
+  const auto &h = i;  // h: const &int 明确指出常量引用
+  const auto &j = 42; // j: const &int
+
+  auto k = ci, &l = i; // k: int, l: int&
+  // 引用的底层常量会自动推理出来
+  auto &m = ci, *p = &ci; // m: const int&, p: const int*
+  auto &n = i;            // n: int&
+  auto *p2 = &ci;         // p2: const int*
+}
+
+std::string SomeFunctionReturningString()
+{
+  return "";
+}
+void demo_decltype()
+{
+  std::string proto("demodemodemodemo");
+  decltype(SomeFunctionReturningString()) s(proto.begin(), proto.end()); // s: string
+  std::cout << OUTPUT_VAL(s) << std::endl;
+
+  // decltype的推理和auto不同。。。日
+  const int ci = 0, &cj = ci;
+  // decltype可以推理出顶层const和引用，而auto不能
+  decltype(ci) x = 0; // x: const int
+  decltype(cj) y = x; // y: const int&
+  decltype(cj) z = 123;
+
+  // 经典例子
+  int i = 42, *p = &i, &r = i;
+  decltype(r + 0) b;   // b: int，本来r是引用int&，但是做了个运算，就变成int了。。。
+  decltype(*p) c = i;  // c: int&，因为*p是&int类型
+  decltype((i)) d = i; // d: int&，decltype里的基本类型加个括号就是引用了，双层括号表示引用，记住
+  decltype(i) e = 123; // e: int
+}
+
+struct SalesData
+{
+  std::string bookNo;      // default constructor
+  unsigned units_sold = 0; // in-class initializer  =
+  double revenue{0.0};     // in-class initializer  {}
+  // 两种 in-class initializer都可以
+}; // 注意class和struct结尾要分号;
+
+void custom_data_type()
+{
+
+  Sales_data accum, trans, *salesPtr;
 }
 
 int main(int argc, char **argv)
@@ -228,9 +352,14 @@ int main(int argc, char **argv)
   RUN_DEMO(demo_number_leteral);
   RUN_DEMO(demo_string_literal);
   RUN_DEMO(demo_initialization);
-  RUN_DEMO(demo_scope);
-  RUN_DEMO(demo_compound_types);
-  RUN_DEMO(demo_const);
-  RUN_DEMO(demo_const_pointer);
+  RUN_DEMO(demo_scope);          // {...}
+  RUN_DEMO(demo_compound_types); // * &
+  RUN_DEMO(demo_const);          // const
+  RUN_DEMO(demo_const_pointer);  // const int*, int* const, const int* const
+  RUN_DEMO(demo_constexpr);      // constexpr
+  RUN_DEMO(demo_typedef);        // typedef using
+  RUN_DEMO(demo_auto);           // auto
+  RUN_DEMO(demo_decltype);       // decltype
+  RUN_DEMO(custom_data_type);    // struct
   return EXIT_SUCCESS;
 }
