@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdlib>
-#include "sales_data.h"
 #include "utils.h"
 #define DESC_TYPE(T) std::cout << "size of " #T " is " << sizeof(T) << " bytes." << std::endl
 
@@ -339,10 +338,19 @@ struct SalesData
   // 两种 in-class initializer都可以
 }; // 注意class和struct结尾要分号;
 
+// operator<< 重载<<运算符，第一个参数 std::ostream&，第二个自定义类型，返回类型std::ostream&
+std::ostream &operator<<(std::ostream &os, const SalesData &sd)
+{
+  os << OUTPUT_VAL(sd.bookNo) << " " << OUTPUT_VAL(sd.units_sold) << " " << OUTPUT_VAL(sd.revenue);
+  return os;
+}
+
 void custom_data_type()
 {
 
-  Sales_data accum, trans, *salesPtr;
+  SalesData accum{"bbb-aaa-000", 10, 123.4}, trans, *salesPtr;
+
+  std::cout << accum << std::endl;
 }
 
 int main(int argc, char **argv)
