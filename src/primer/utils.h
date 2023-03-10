@@ -3,18 +3,35 @@
 #include <iostream>
 
 template <typename T>
-inline void describe_vector(const std::vector<T> &vec)
+void describe_vector(const std::vector<T> &vec)
 {
-  std::cout << "[ ";
-  for (auto iter = vec.begin(); iter != vec.end();)
+  std::cout << "[";
+  auto iter = vec.begin();
+  if (iter != vec.end())
   {
     std::cout << *iter;
     ++iter;
-    if (iter != vec.end())
-    {
-      std::cout << ",";
-    }
-    std::cout << " ";
+  }
+  for (; iter != vec.end(); ++iter)
+  {
+    std::cout << ", " << *iter;
+  }
+  std::cout << "] size: " << vec.size() << std::endl;
+}
+
+template <>
+void describe_vector(const std::vector<std::string> &vec)
+{
+  std::cout << "[";
+  auto iter = vec.begin();
+  if (iter != vec.end())
+  {
+    std::cout << "\"" << *iter << "\"";
+    ++iter;
+  }
+  for (; iter != vec.end(); ++iter)
+  {
+    std::cout << ", \"" << *iter << "\"";
   }
   std::cout << "] size: " << vec.size() << std::endl;
 }
