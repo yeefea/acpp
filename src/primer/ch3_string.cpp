@@ -3,6 +3,7 @@
 #include <cctype>
 #include <vector>
 #include <sstream>
+#include <cstddef> // size_t
 #include "utils.h"
 
 void demo_using()
@@ -43,7 +44,7 @@ void demo_initialize_string()
             << OUTPUT_VAL(s8) << std::endl;
 }
 
-void desc_string(std::string &s)
+void describe_string(std::string &s)
 {
 
   static std::string some_s = "12312312";
@@ -78,7 +79,7 @@ void demo_string_operation()
   ss >> s;
   std::cout << s << std::endl;
 
-  desc_string(s);
+  describe_string(s);
 }
 
 void demo_cctype()
@@ -182,7 +183,7 @@ void demo_iterator()
 }
 
 template <typename T>
-void descrive_array(T *begin, T *end)
+void describe_array(const T *begin, const T *end)
 {
   std::cout << "[";
   auto iter = begin;
@@ -199,7 +200,7 @@ void descrive_array(T *begin, T *end)
 }
 
 template <>
-void descrive_array(std::string *begin, std::string *end)
+void describe_array(const std::string *begin, const std::string *end)
 {
   std::cout << "[";
   auto iter = begin;
@@ -215,19 +216,48 @@ void descrive_array(std::string *begin, std::string *end)
   std::cout << "] size: " << (end - begin) << std::endl;
 }
 
+template <>
+void describe_array(const char *begin, const char *end)
+{
+  std::cout << "[";
+  auto iter = begin;
+  if (iter != end)
+  {
+    std::cout << "\'" << *iter << "\'";
+    ++iter;
+  }
+  for (; iter != end; ++iter)
+  {
+    std::cout << ", \'" << *iter << "\'";
+  }
+  std::cout << "] size: " << (end - begin) << std::endl;
+}
+
 void demo_array()
 {
   constexpr unsigned sz = 42;
-  constexpr unsigned szi = 19;
+  constexpr unsigned szi = 10;
   int arr[szi];
   for (int i = 0; i < szi; ++i)
   {
     arr[i] = i + 100;
   }
-  descrive_array(arr, arr + szi);
+  describe_array(arr, arr + szi);
   int *parr[sz];
+
   std::string strs[sz] = {"hello", " ", "world", "nihao"};
-  descrive_array(strs, strs + sz);
+  describe_array(strs, strs + sz);
+
+  // 复杂的数组声明，默认情况下，类型修饰符从右向左绑定，有括号时从内向外绑定
+  int *ptrs[szi]; // 含有10个指针的数组
+  describe_array(ptrs, ptrs + szi);
+  int(*Parray)[szi] = &arr; // 指向int数组的指针
+  describe_array(*Parray, *Parray + szi);
+  int(&arrRef)[szi] = arr; // int数组的引用
+  describe_array(arrRef, arrRef + szi);
+
+  int *(&arry)[szi] = ptrs; // ptrs的引用
+  describe_array(arry, arry + szi);
 }
 
 void demo_char_array()
@@ -240,8 +270,97 @@ void demo_char_array()
   const char a4[] = "daniel";
 }
 
+// demo_pointer_array  指针和数组
 void demo_pointer_array()
 {
+
+  std::string nums[] = {"one", "two", "three"};
+  int ia[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  // auto
+  auto ia2(ia);      // 用auto推理出来ia2是指针，而不是数组！
+  auto ia22(&ia[0]); // 等价于上一行
+  // 指针做迭代器
+  describe_array(ia2, ia2 + 9);
+
+  // decltype
+  decltype(ia) ia3 = {0, 1, 2, 3, 4, 5, 6, 7, 8}; // 用decltype推理推理出来ia3是数组
+  ia3[4] = 10;
+  describe_array(ia3, ia3 + 9);
+
+  std::string *begin = &nums[0], *end = &nums[3]; // begin
+  describe_array(begin, end);
+
+  // 标准库的begin，end函数获取数组首尾地址
+  int *beg = std::begin(ia), *last = std::end(ia);
+
+  describe_array(beg, last);
+
+  std::ptrdiff_t diff = last - beg;
+  std::cout << OUTPUT_VAL(diff) << std::endl;
+}
+
+void demo_cstr()
+{
+
+  char s1[] = {'1', '2', '3', '4', '5', '\0'};
+  char *bg1 = std::begin(s1), *ed1 = std::end(s1);
+  char s2[] = {'6', '7', '8', '9', '\0'};
+  char *bg2 = std::begin(s2), *ed2 = std::end(s2);
+  std::cout << OUTPUT_VAL(strlen(s1)) << std::endl;
+  std::cout << OUTPUT_VAL(strlen(s2)) << std::endl;
+
+  std::cout << OUTPUT_VAL(strcmp(s1, s2)) << std::endl;
+  strcpy(s1, s2);
+  std::cout << OUTPUT_VAL(s1) << std::endl;
+
+  describe_array(bg1, ed1);
+  describe_array(bg2, ed2);
+
+  // std::string -> cstring
+  std::string s("Hello world");
+  const char *acient_str = s.c_str();
+  describe_array(acient_str, acient_str + strlen(acient_str));
+}
+
+void demo_multi_dim_array()
+{
+
+  constexpr int row = 3, col = 4;
+
+  int ia[row][col] = {
+      {0, 1, 2, 3},
+      {4, 5, 6, 7},
+      {8, 9, 9, 9}};
+  int cnt = 100;
+  for (auto &r : ia)
+  {
+    for (auto &c : r)
+    {
+      c = cnt;
+      ++cnt;
+    }
+  }
+
+  for (const auto r : ia)
+  {
+    describe_array(r, r + col);
+  }
+
+  int(*p)[4] = ia;
+  p = &ia[2];
+  std::cout << OUTPUT_VAL(ia) << " " << OUTPUT_VAL(p) << std::endl;
+  describe_array(*p, (*p) + col);
+  int arr[10][20][30] = {0};
+
+  // 类型别名，简化数组定义
+  typedef int int_arr[4];
+  using int_array = int[4]; // 和上一行等价
+  int_array ia2[3];
+
+  for (const auto r : ia2)
+  {
+    describe_array(r, r + col);
+  }
 }
 int main(int argc, char **argv)
 {
@@ -255,5 +374,7 @@ int main(int argc, char **argv)
   RUN_DEMO(demo_array);
   RUN_DEMO(demo_char_array);
   RUN_DEMO(demo_pointer_array);
+  RUN_DEMO(demo_cstr);
+  RUN_DEMO(demo_multi_dim_array);
   return EXIT_SUCCESS;
 }

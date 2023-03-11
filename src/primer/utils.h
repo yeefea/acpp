@@ -19,23 +19,6 @@ void describe_vector(const std::vector<T> &vec)
   std::cout << "] size: " << vec.size() << std::endl;
 }
 
-template <>
-void describe_vector(const std::vector<std::string> &vec)
-{
-  std::cout << "[";
-  auto iter = vec.begin();
-  if (iter != vec.end())
-  {
-    std::cout << "\"" << *iter << "\"";
-    ++iter;
-  }
-  for (; iter != vec.end(); ++iter)
-  {
-    std::cout << ", \"" << *iter << "\"";
-  }
-  std::cout << "] size: " << vec.size() << std::endl;
-}
-
 #define RUN_DEMO(X)                      \
   do                                     \
   {                                      \
