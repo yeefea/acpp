@@ -15,6 +15,8 @@ ch3_string.o: ch3_string.cpp
 
 ch4_expression.o: ch4_expression.cpp
 	g++ -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+ch5_statement.o: ch5_statement.cpp
+	g++ -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 ch3: utils.o ch3_string.o
 	g++ $^ -o $@ $(CFLAGS) $(CPPFLAGS)
@@ -22,6 +24,8 @@ ch3: utils.o ch3_string.o
 ch4: utils.o ch4_expression.o
 	g++ $^ -o $@ $(CFLAGS) $(CPPFLAGS)
 
+ch5: utils.o ch5_statement.o
+	g++ $^ -o $@ $(CFLAGS) $(CPPFLAGS)
 .PHONY: clean
 clean:
 	rm *.o
