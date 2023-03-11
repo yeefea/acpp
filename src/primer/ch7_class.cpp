@@ -1,23 +1,37 @@
+#include <cstdlib>
+#include <string>
+#include <sstream>
+#include <iostream>
 #include "sales_data.h"
 #include "screen.h"
+#include "account.h"
+#include "utils.h"
 
-using namespace std;
-
-double Sales_data::avg_price() const
+void demo_sales_data()
 {
-    if (units_sold)
+    std::string input_txt = "bk001 10 123.0";
+    std::stringstream ss(input_txt);
+
+    Sales_data total;
+    if (read(ss, total))
     {
-        return revenue / units_sold;
-    }
-    else
-    {
-        return 0;
+        print(std::cout, total);
+        // Sales_data trans;
     }
 }
 
-Sales_data &Sales_data::combine(const Sales_data &rhs)
+void demo_screen()
 {
-    units_sold += rhs.units_sold;
-    revenue += rhs.revenue;
-    return *this;
+}
+
+void demo_account()
+{
+}
+
+int main(int argc, char **argv)
+{
+    RUN_DEMO(demo_sales_data);
+    RUN_DEMO(demo_screen);
+    RUN_DEMO(demo_account);
+    return EXIT_SUCCESS;
 }
