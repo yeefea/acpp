@@ -53,9 +53,15 @@ std::string &shorter_string(std::string &s1, std::string &s2)
   return const_cast<std::string &>(r);
 }
 
-auto tail_return() -> int (*)(int *, int)
+int add(int a, int b)
 {
-  return nullptr;
+  return a + b;
+}
+
+auto tail_return() -> int (*)(int, int)
+{
+  // 返回函数指针
+  return add;
 }
 
 void demo_function()
@@ -79,7 +85,11 @@ void demo_function()
   describe_values({1, 2, 3, 4, 5});
 
   // tailing return type
-  constexpr int ci = tail_return();
+  auto add1 = tail_return();
+  decltype(tail_return) *fp;
+  fp = tail_return;
+  auto res = add1(1,3);
+  std::cout << OUTPUT_VAL(res) << std::endl;
 }
 
 int main(int argc, char **argv)
