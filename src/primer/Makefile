@@ -1,4 +1,4 @@
-CFLAGS=-O2
+CFLAGS=-Wall -O2
 CPPFLAGS=-std=c++17
 
 utils.o: utils.cpp
@@ -13,7 +13,13 @@ ch2: utils.o ch2_types.o
 ch3_string.o: ch3_string.cpp 
 	g++ -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
+ch4_expression.o: ch4_expression.cpp
+	g++ -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+
 ch3: utils.o ch3_string.o
+	g++ $^ -o $@ $(CFLAGS) $(CPPFLAGS)
+
+ch4: utils.o ch4_expression.o
 	g++ $^ -o $@ $(CFLAGS) $(CPPFLAGS)
 
 .PHONY: clean

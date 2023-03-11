@@ -27,6 +27,8 @@ void describe_vector(const std::vector<T> &vec)
     std::cout << std::endl;              \
   } while (0)
 
+#define SKIP_RUN_DEMO(X)
+
 #define OUTPUT_VAL(X) #X "=" << (X)
 
 extern const int bufsize;

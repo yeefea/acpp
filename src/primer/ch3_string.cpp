@@ -362,6 +362,7 @@ void demo_multi_dim_array()
     describe_array(r, r + col);
   }
 }
+
 int main(int argc, char **argv)
 {
   RUN_DEMO(demo_using);
