@@ -182,57 +182,6 @@ void demo_iterator()
   std::cout << std::endl;
 }
 
-template <typename T>
-void describe_array(const T *begin, const T *end)
-{
-  std::cout << "[";
-  auto iter = begin;
-  if (iter != end)
-  {
-    std::cout << *iter;
-    ++iter;
-  }
-  for (; iter != end; ++iter)
-  {
-    std::cout << ", " << *iter;
-  }
-  std::cout << "] size: " << (end - begin) << std::endl;
-}
-
-template <>
-void describe_array(const std::string *begin, const std::string *end)
-{
-  std::cout << "[";
-  auto iter = begin;
-  if (iter != end)
-  {
-    std::cout << "\"" << *iter << "\"";
-    ++iter;
-  }
-  for (; iter != end; ++iter)
-  {
-    std::cout << ", \"" << *iter << "\"";
-  }
-  std::cout << "] size: " << (end - begin) << std::endl;
-}
-
-template <>
-void describe_array(const char *begin, const char *end)
-{
-  std::cout << "[";
-  auto iter = begin;
-  if (iter != end)
-  {
-    std::cout << "\'" << *iter << "\'";
-    ++iter;
-  }
-  for (; iter != end; ++iter)
-  {
-    std::cout << ", \'" << *iter << "\'";
-  }
-  std::cout << "] size: " << (end - begin) << std::endl;
-}
-
 void demo_array()
 {
   constexpr unsigned sz = 42;
