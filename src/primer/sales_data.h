@@ -9,7 +9,7 @@ class Sales_data
 
 public:
     Sales_data() = default;
-    Sales_data(const std::string &s) : bookNo(s) {}
+    Sales_data(const std::string &s) : Sales_data(s, 0, 0) {}  //委托构造函数
     Sales_data(const std::string &s, unsigned n, double p)
         : bookNo(s), units_sold(n), revenue(p * n) {}
     Sales_data(std::istream &);

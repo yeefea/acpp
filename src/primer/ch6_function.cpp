@@ -88,12 +88,31 @@ void demo_function()
   auto add1 = tail_return();
   decltype(tail_return) *fp;
   fp = tail_return;
-  auto res = add1(1,3);
+  auto res = add1(1, 3);
   std::cout << OUTPUT_VAL(res) << std::endl;
+}
+
+constexpr int new_sz() { return 42; }
+
+constexpr int cadd(int a, int b)
+{
+  return a + b;
+}
+
+void demo_constexpr_func()
+{
+  constexpr int sz = new_sz();
+  std::cout << OUTPUT_VAL(sz) << std::endl;
+
+  constexpr int num1 = 1, num2 = 2;
+  constexpr int res = cadd(num1, num2);
+
+  std::cout << OUTPUT_VAL(num1) << ", " << OUTPUT_VAL(num2) << ", " << OUTPUT_VAL(res) << std::endl;
 }
 
 int main(int argc, char **argv)
 {
   RUN_DEMO(demo_function);
+  RUN_DEMO(demo_constexpr_func);
   return EXIT_SUCCESS;
 }

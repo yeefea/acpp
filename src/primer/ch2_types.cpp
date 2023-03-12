@@ -225,16 +225,30 @@ constexpr int size()
 {
   return 10;
 }
+
+int get_size_in_runtime()
+{
+  return 42;
+}
+
 int j = 100;
 constexpr int i = 42;
+
 void demo_constexpr()
 {
+  {
+    // 逻辑上的常量表达式难以分辨
+    const int max_files = 20;             // yes  <=> constexpr
+    const int limit = max_files + 1;      // yes  <=> constexpr
+    int staff_size = 27;                  // no
+    const int sz = get_size_in_runtime(); // no
+  }
   constexpr int mf = 20;
   constexpr int limit = mf + 1;
   constexpr int sz = size();
   // constexpr指针都是顶层const，初始化后不能修改！！！和const int *ptr不一样！！！
   constexpr int *top_const = &j; // 函数体内的变量地址只能在运行时确定，constexpr指针的地址必须在编译期确定，只能用全局变量的地址。
-  *top_const = 13;               // 这样是可以的，给i赋值
+  *top_const = 13;               // 这样是可以的，给j赋值
   // top_const = nullptr;  // error
   constexpr int *must_null = nullptr; // 否则只能用nullptr初始化
   constexpr const int *cpi = &i;      // 指向常量i
