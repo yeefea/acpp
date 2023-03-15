@@ -56,6 +56,22 @@ void demo_account()
 {
 }
 
+class NoDefault
+{
+public:
+    // NoDefault() = default;
+    explicit NoDefault(std::string s) : data(s) {}
+
+    std::string data;
+};
+
+void demo_no_default_constructor()
+{
+    // NoDefault x;  // error，没有默认构造函数
+    NoDefault nd("class NoDefault has no default constructor!");
+    std::cout << OUTPUT_VAL(nd.data) << std::endl;
+}
+
 // DataPackage是一个aggregate class
 // 可以用{...}初始化，和C语言一样
 struct DataPackage
@@ -120,7 +136,7 @@ void demo_constexpr_class()
     constexpr ConstData const_data{c1, 2, 3.0f};
     std::cout << const_data << std::endl;
 
-    // 2. 非聚合类
+    // 2. 非聚合类，满足特定要求要求的，也是字面值常量类
     constexpr Debug io_sub(false, true, false);
     if (io_sub.any())
     {
@@ -128,8 +144,14 @@ void demo_constexpr_class()
     }
 }
 
-void demo_static_member(){
-    
+void demo_static_member()
+{
+
+    Account::interestRate = 1.0;
+
+    Account acc1("yeefea", 123.45);
+    std::cout << OUTPUT_VAL(Account::interestRate) << std::endl;
+    std::cout << OUTPUT_VAL(acc1.owner()) << " " << OUTPUT_VAL(acc1.amount()) << std::endl;
 }
 
 int main(int argc, char **argv)
@@ -137,8 +159,9 @@ int main(int argc, char **argv)
     RUN_DEMO(demo_sales_data);
     RUN_DEMO(demo_screen);
     RUN_DEMO(demo_account);
-
+    RUN_DEMO(demo_no_default_constructor);
     RUN_DEMO(demo_agg_class);
     RUN_DEMO(demo_constexpr_class);
+    RUN_DEMO(demo_static_member);
     return EXIT_SUCCESS;
 }

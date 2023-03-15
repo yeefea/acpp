@@ -1,4 +1,3 @@
-#pragma once
 #include "utils.h"
 
 extern const double pi = 3.1416;

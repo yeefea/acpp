@@ -1,0 +1,13 @@
+import os.path
+
+CCFLAGS = "-I/home/yifei/.local/include -std=c++17 -O3"
+
+OUTPUT_DIR = "bin"
+
+ch7 = os.path.join(OUTPUT_DIR, "ch7")
+
+Program(
+    ch7,
+    ["ch7_class.cpp", "sales_data.cpp", "screen.cpp", "account.cpp", "utils.cpp"],
+    CCFLAGS=CCFLAGS,
+)

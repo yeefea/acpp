@@ -32,6 +32,7 @@ public:
         do_display(os);
         return *this;
     }
+    Screen &clear(char = bkground);
 
 private:
     mutable size_t access_ctr; // 在const函数里也能修改mutable成员
@@ -39,6 +40,7 @@ private:
     pos height = 0, width = 0; // 类内初始化，用=
     std::string contents;
     void do_display(std::ostream &os) const { os << contents; }
+    static const char bkground;
 };
 
 inline Screen &Screen::move(pos r, pos c)
