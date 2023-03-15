@@ -5,9 +5,17 @@ CCFLAGS = "-I/home/yifei/.local/include -std=c++17 -O3"
 OUTPUT_DIR = "bin"
 
 ch7 = os.path.join(OUTPUT_DIR, "ch7")
+ch12 = os.path.join(OUTPUT_DIR, "ch12")
 
 Program(
     ch7,
     ["ch7_class.cpp", "sales_data.cpp", "screen.cpp", "account.cpp", "utils.cpp"],
+    CCFLAGS=CCFLAGS,
+)
+
+
+Program(
+    ch12,
+    ["ch12_dynamic_memory.cpp", "utils.cpp"],
     CCFLAGS=CCFLAGS,
 )

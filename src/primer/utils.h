@@ -47,6 +47,7 @@ void describe_array(const T *begin, const T *end)
 #define SKIP_RUN_DEMO(X)
 
 #define OUTPUT_VAL(X) #X "=" << (X)
+#define OUTPUT_MEMBER(OBJ,M) #M "=" << (OBJ.M)
 
 extern const int bufsize;
 extern const double pi;
