@@ -4,6 +4,7 @@
 #include <list>
 #include <iomanip>
 #include "utils.h"
+#include "blob.h"
 
 class Car
 {
@@ -69,15 +70,32 @@ void demo_shared_ptr()
   std::cout << OUTPUT_VAL(car2.use_count()) << std::endl;
 }
 
+void demo_blob()
+{
+
+  Blob<std::string> strs;
+
+  strs.push_back("123123");
+  strs.push_back("456");
+  strs.push_back("789");
+
+  std::cout << OUTPUT_VAL(strs.size()) << std::endl;
+}
 void demo_new()
 {
   auto ps = new std::string("123123123");
   delete ps;
+  ps = nullptr; // avoid dangling pointer
+}
+
+void demo_unique_ptr(){
+  
 }
 
 int main(int argc, char **argv)
 {
 
   RUN_DEMO(demo_shared_ptr);
+  RUN_DEMO(demo_blob);
   return 0;
 }
