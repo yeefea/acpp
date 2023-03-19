@@ -16,6 +16,6 @@ Program(
 
 Program(
     ch12,
-    ["ch12_dynamic_memory.cpp", "utils.cpp"],
+    ["ch12_dynamic_memory.cpp", "utils.cpp", "str_blob.cpp", "str_blob_ptr.cpp"],
     CCFLAGS=CCFLAGS,
 )
