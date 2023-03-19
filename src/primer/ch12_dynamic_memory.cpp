@@ -7,9 +7,12 @@
 #include <new> // bad_alloc, nothrow
 #include <stdexcept>
 #include <cassert>
+#include <sstream>
 #include "utils.h"
 #include "str_blob.h"
 #include "str_blob_ptr.h"
+#include "text_query.h"
+#include "query_result.h"
 
 class Car
 {
@@ -274,13 +277,64 @@ void demo_dynamic_array()
     up[i] = i * 2;
   }
   describe_array<int>(up.get(), up.get() + n);
+
+  // shared_ptr and dynamic array
+  // shared_ptr不直接支持动态数组管理，需要传入自定义的deleter
+  std::shared_ptr<int> sp(
+      new int[10], [](int *pia)
+      { 
+        describe_array(pia, pia+10);
+        std::cout  << "delete pia array" << std::endl;
+        delete[] pia; });
+  sp.reset(); // 释放内存
+  assert(sp == nullptr);
 }
 
 void demo_allocator()
 {
   int n_str = 10;
   std::allocator<std::string> alloc;
-  auto const p = alloc.allocate(n_str);
+  auto const p = alloc.allocate(n_str); // 会根据给定的对象类型来确定恰当的内存大小和对齐位置
+  // 此时p指向的内存未初始化！
+  auto q = p;
+  alloc.construct(q++); // 构造p[0]  deprecated！
+  std::cout << OUTPUT_VAL(*p) << std::endl;
+  alloc.construct(q++, 10, 'c'); // 构造p[1]
+  std::cout << OUTPUT_VAL(*(p + 1)) << std::endl;
+  alloc.construct(q++, "hi"); // 构造p[2]
+  std::cout << OUTPUT_VAL(*(p + 2)) << std::endl;
+
+  while (q != p)
+  {
+    alloc.destroy(--q); // 析构上面创建的3个string
+  }
+
+  alloc.deallocate(p, n_str); // 释放内存
+
+  std::allocator<int> ialloc;
+  std::vector<int> vi = {1, 3, 5, 7, 9, 11, 13};
+  auto pi = ialloc.allocate(vi.size() * 2);
+  auto qi = std::uninitialized_copy(vi.begin(), vi.end(), pi);
+  auto end = std::uninitialized_fill_n(qi, vi.size(), 42);
+
+  describe_array(pi, pi + vi.size() * 2);
+  for (auto qq = pi; qq != end; ++qq)
+  {
+    ialloc.destroy(qq);
+  }
+  ialloc.deallocate(pi, vi.size() * 2); // 释放内存
+}
+
+void demo_text_query()
+{
+
+  std::stringstream ss("one two three\nfour five six seven one three\neight nine two\n ten eleven\n");
+  TextQuery tq(ss);
+  auto res1 = tq.query("one");
+  print_query_result(std::cout, res1);
+
+  auto res2 = tq.query("two");
+  print_query_result(std::cout, res2);
 }
 
 int main(int argc, char **argv)
@@ -297,5 +351,6 @@ int main(int argc, char **argv)
   RUN_DEMO(demo_str_blob_ptr);
   RUN_DEMO(demo_dynamic_array);
   RUN_DEMO(demo_allocator);
+  RUN_DEMO(demo_text_query);
   return 0;
 }
