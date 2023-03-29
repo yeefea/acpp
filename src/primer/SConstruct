@@ -6,6 +6,7 @@ OUTPUT_DIR = "bin"
 
 ch7 = os.path.join(OUTPUT_DIR, "ch7")
 ch12 = os.path.join(OUTPUT_DIR, "ch12")
+ch13 = os.path.join(OUTPUT_DIR, "ch13")
 
 Program(
     ch7,
@@ -23,6 +24,15 @@ Program(
         "str_blob_ptr.cpp",
         "text_query.cpp",
         "query_result.cpp",
+    ],
+    CCFLAGS=CCFLAGS,
+)
+
+Program(
+    ch13,
+    [
+        "ch13_copy_control.cpp",
+        "utils.cpp",
     ],
     CCFLAGS=CCFLAGS,
 )

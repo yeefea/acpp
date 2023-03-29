@@ -53,3 +53,21 @@ void describe_array(const char *begin, const char *end)
   }
   std::cout << "] size: " << (end - begin) << std::endl;
 }
+
+template <>
+std::ostream &serialize_arr(std::ostream &os, const std::string *begin, const std::string *end)
+{
+  os << "[";
+  auto iter = begin;
+  if (iter != end)
+  {
+    os << "\"" << *iter << "\"";
+    ++iter;
+  }
+  for (; iter != end; ++iter)
+  {
+    os << ", \"" << *iter << "\"";
+  }
+  os << "]";
+  return os;
+}

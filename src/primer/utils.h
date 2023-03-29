@@ -36,6 +36,24 @@ void describe_array(const T *begin, const T *end)
   std::cout << "] size: " << (end - begin) << std::endl;
 }
 
+template <typename T>
+std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end)
+{
+  os << "[";
+  auto iter = begin;
+  if (iter != end)
+  {
+    os << *iter;
+    ++iter;
+  }
+  for (; iter != end; ++iter)
+  {
+    os << ", " << *iter;
+  }
+  os << "]";
+  return os;
+}
+
 #define RUN_DEMO(X)                      \
   do                                     \
   {                                      \
@@ -47,7 +65,7 @@ void describe_array(const T *begin, const T *end)
 #define SKIP_RUN_DEMO(X)
 
 #define OUTPUT_VAL(X) #X "=" << (X)
-#define OUTPUT_MEMBER(OBJ,M) #M "=" << (OBJ.M)
+#define OUTPUT_MEMBER(OBJ, M) #M "=" << (OBJ.M)
 
 extern const int bufsize;
 extern const double pi;

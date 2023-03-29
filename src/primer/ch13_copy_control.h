@@ -1,20 +1,20 @@
 #pragma once
 #include <string>
-class HasPtr
+class HasPtrLikeValue
 {
 
 public:
-  HasPtr(const std::string &s = std::string()) : ps(new std::string(s)) {}
-  HasPtr(const HasPtr &p) : ps(new std::string(*p.ps)) {} // 1 拷贝构造
-  HasPtr &operator=(const HasPtr &rhs)                    // 2 拷贝赋值
+  HasPtrLikeValue(const std::string &s = std::string()) : ps(new std::string(s)) {}
+  HasPtrLikeValue(const HasPtrLikeValue &p) : ps(new std::string(*p.ps)) {} // 1 拷贝构造
+  HasPtrLikeValue &operator=(const HasPtrLikeValue &rhs)                    // 2 拷贝赋值
   {
     delete ps;
     ps = new std::string(*rhs.ps);
     return *this;
   }
-  ~HasPtr() { delete ps; }              // 3 析构
-  HasPtr(HasPtr &&p) noexcept {}        // 4 移动构造
-  HasPtr &operator=(const HasPtr &&rhs) // 5 移动赋值
+  ~HasPtrLikeValue() { delete ps; }              // 3 析构
+  HasPtrLikeValue(HasPtrLikeValue &&p) noexcept {}        // 4 移动构造
+  HasPtrLikeValue &operator=(const HasPtrLikeValue &&rhs) // 5 移动赋值
   {
     delete ps;
     ps = new std::string(*rhs.ps);
