@@ -7,6 +7,7 @@ OUTPUT_DIR = "bin"
 ch7 = os.path.join(OUTPUT_DIR, "ch7")
 ch12 = os.path.join(OUTPUT_DIR, "ch12")
 ch13 = os.path.join(OUTPUT_DIR, "ch13")
+ch14 = os.path.join(OUTPUT_DIR, "ch14")
 
 Program(
     ch7,
@@ -36,3 +37,13 @@ Program(
     ],
     CCFLAGS=CCFLAGS,
 )
+
+Program(
+    ch14,
+    [
+        "ch14_operator_overloading.cpp",
+        "utils.cpp",
+    ],
+    CCFLAGS=CCFLAGS,
+)
+

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include "utils.h"
 
 class HasPtrLikeValue;
 inline void swap(HasPtrLikeValue &lhs, HasPtrLikeValue &rhs);
