@@ -1,9 +1,16 @@
 #include <string>
 #include <iostream>
+#include <utility> // move
+#include <algorithm>
 #include "utils.h"
 #include "nocopy.h"
 #include "nodtor.h"
 #include "has_ptr.h"
+
+/*
+拷贝控制
+资源管理
+*/
 
 class DemoObject
 {
@@ -121,15 +128,78 @@ void demo_copy_control()
 
 void demo_swap()
 {
-  
+  HasPtrLikeValue val1("123123123");
+  HasPtrLikeValue val2;
+
+  val2 = val1;
 }
+
+struct DefaultMove
+{
+
+  // iff 一个类没有定义任何拷贝控制成员，且每个非static数据成员都可以移动，则编译器会合成移动构造函数和移动赋值运算符
+  int i;         // 内置类型可以move
+  std::string s; // string定义了move操作
+};
+
+struct CanMove
+{
+  DefaultMove mem; // 有合成的移动操作
+};
+
+class SortableObj
+{
+public:
+  SortableObj sorted() &&;
+  SortableObj sorted() const &; // 同名同参数的函数，如果其中一个有引用限限定符，则所有都必须有引用限定符
+  // SortableObj sorted() const ; // 这样是错的，重载参数类型相同的两个成员函数需要它们同时具有或缺少引用限定符C/C++(2449)
+
+private:
+  std::vector<int> data;
+};
+
+SortableObj SortableObj::sorted() &&
+{
+  std::sort(data.begin(), data.end());
+  return *this;
+}
+
+SortableObj SortableObj::sorted() const &
+{
+
+  SortableObj ret(*this);
+  std::sort(ret.data.begin(), ret.data.end());
+  return ret;
+}
+
 void demo_move()
 {
 
+  /*
+  lvalue
+  xvalue
+  prvalue
+
+  glvalue
+    lvalue
+    xvalue
+
+  rvalue
+    prvalue
+    xvalue
+  */
+
   int i = 42;
-  // rvalue
+  // rvalue ref
   int &&rr = i * 42;
-  const int &r3 = i * 42;
+  const int &r3 = i * 42; // const引用可以绑定到右值上
+
+  int &&rr1 = 42;
+  int &&rr3 = std::move(rr1);
+
+  Foo x;
+  Foo y(x);
+  Foo z(std::move(x)); // 因为Foo没有移动构造函数，所以即使用了move还是调用拷贝构造函数，Foo&&转const Foo&
 }
 
 int main(int argc, char **argv)

@@ -1,10 +1,15 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+
+class HasPtrLikeValue;
+inline void swap(HasPtrLikeValue &lhs, HasPtrLikeValue &rhs);
 
 class HasPtrLikeValue
 {
-  friend void swap(HasPtrLikeValue&,HasPtrLikeValue&);
+  friend void swap(HasPtrLikeValue &, HasPtrLikeValue &);
+
 public:
   HasPtrLikeValue(const std::string &s = std::string()) : ps(new std::string(s)), i(0) {}
   HasPtrLikeValue(const HasPtrLikeValue &p) : ps(new std::string(*p.ps)), i(p.i) {}
@@ -20,6 +25,14 @@ public:
     i = rhs.i;
     return *this;
   }
+  // copy and swap写法
+  // swap版本的赋值运算符参数一般不是引用
+  // HasPtrLikeValue &operator=(HasPtrLikeValue rhs)
+  // {
+  //   swap(*this, rhs);
+  //   return *this;
+  // }
+
   ~HasPtrLikeValue() { delete ps; }
 
 private:
@@ -27,14 +40,26 @@ private:
   int i;
 };
 
+// swap是用于优化代码，避免不必要的拷贝
+inline void swap(HasPtrLikeValue &lhs, HasPtrLikeValue &rhs)
+{
+  std::cout << "swap HasPtrLikeValue: " << *lhs.ps << "<=>" << *rhs.ps << std::endl;
+  using std::swap; // 注意一定要using
+  swap(lhs.ps, rhs.ps);
+  swap(lhs.i, rhs.i);
+}
+
 class HasPtrLikePtr
 {
 public:
   HasPtrLikePtr(const std::string &s = std::string())
       : ps(new std::string(s)), i(0), use(new std::size_t(1)) {}
-  HasPtrLikePtr(const HasPtrLikePtr &p)
-      : ps(p.ps), i(p.i), use(p.use) { ++*use; }
-  HasPtrLikePtr &operator=(const HasPtrLikePtr &rhs);
+  HasPtrLikePtr(const HasPtrLikePtr &p) // copy
+      : ps(p.ps), i(p.i), use(p.use)
+  {
+    ++*use;
+  }
+  HasPtrLikePtr &operator=(const HasPtrLikePtr &rhs); // assign
   ~HasPtrLikePtr();
   const std::size_t refcnt() const
   {
@@ -71,6 +96,7 @@ HasPtrLikePtr &HasPtrLikePtr::operator=(const HasPtrLikePtr &rhs)
     delete ps;
     delete use;
   }
+  // copy rhs
   ps = rhs.ps;
   i = rhs.i;
   use = rhs.use;

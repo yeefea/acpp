@@ -292,6 +292,21 @@ void demo_dynamic_array()
 
 void demo_allocator()
 {
+
+  /*
+    allocator支持的操作
+    allocator<T> a
+    a.allocate(n)       分配内存
+    a.deallocate(p,n)   释放内存
+    a.construct(p,args) 构造对象
+    a.destroy(p)        析构对象
+
+    内存填充方法
+    uninitialized_copy(src_begin,src_end,target_begin)    [src_begin,src_end) -> [target_begin,)        前两个参数表示的区间 复制到 最后一个参数起始的数组
+    uninitialized_copy_n(src_begin,src_n,target_begin)    [src_begin,src_begin+n) -> [target_begin,)    前两个参数表示的区间 复制到 最后一个参数起始的数组
+    uninitialized_fill(target_begin,target_end,obj)       obj -> [target_begin,target_end)              最后一个参数表示的对象 复制到 前两个参数表示的区间
+    uninitialized_fill_n(target_begin,target_begin+n,obj) obj -> [target_begin,target_begin+n)          最后一个参数表示的对象 复制到 前两个参数表示的区间
+  */
   int n_str = 10;
   std::allocator<std::string> alloc;
   auto const p = alloc.allocate(n_str); // 会根据给定的对象类型来确定恰当的内存大小和对齐位置
