@@ -8,6 +8,7 @@ ch7 = os.path.join(OUTPUT_DIR, "ch7")
 ch12 = os.path.join(OUTPUT_DIR, "ch12")
 ch13 = os.path.join(OUTPUT_DIR, "ch13")
 ch14 = os.path.join(OUTPUT_DIR, "ch14")
+ch15 = os.path.join(OUTPUT_DIR, "ch15")
 
 Program(
     ch7,
@@ -47,3 +48,11 @@ Program(
     CCFLAGS=CCFLAGS,
 )
 
+Program(
+    ch15,
+    [
+        "ch15_oop.cpp",
+        "utils.cpp",
+    ],
+    CCFLAGS=CCFLAGS,
+)
