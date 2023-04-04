@@ -1,6 +1,8 @@
 #include <iostream>
 #include "ch15_oop.h"
+#include "quote.h"
 #include "utils.h"
+#include "basket.h"
 
 BulkQuote::BulkQuote(const std::string &book, double p, std::size_t qty, double disc)
     : Quote(book, p), min_qty(qty), discount(disc) {} // 调用父类构造函数
@@ -121,6 +123,97 @@ void demo_access()
   // Base &br_priv = priv;
 }
 
+void demo_virtual_func_scope()
+{
+  Base1 bobj;
+  D1 d1obj;
+  D2 d2obj;
+
+  Base1 *bp1 = &bobj;
+  Base1 *bp2 = &d1obj;
+  Base1 *bp3 = &d2obj;
+
+  D1 *d1p = &d1obj;
+  D2 *d2p = &d2obj;
+
+  bp1->fcn();
+  bp2->fcn();
+  bp3->fcn();
+
+  // bp2->f2();
+  d1p->f2();
+  d2p->f2();
+
+  D1 *p1 = &d2obj;
+  D2 *p2 = &d2obj;
+
+  p1->fcn(1); // 静态绑定，非虚函数，调用D1::
+  p2->fcn(1); // 静态绑定，非虚函数，调用D2::
+
+  D3 d3obj;
+  d3obj.fcn();
+}
+
+void demo_virtual_destructor()
+{
+  /*
+  As a guideline, any time you have a virtual function in a class,
+  you should immediately add a virtual destructor (even if it does nothing).
+  This way, you ensure against any surprises later.
+  */
+  ObjVirtualDestructor *obj = new DerivedObjVirtualDestructor();
+  delete obj;
+}
+
+void demo_copy_control()
+{
+}
+
+void demo_inheriting_constructor()
+{
+  ObjConstructor obj(1, "333");
+  obj.describe(std::cout);
+  std::cout << std::endl;
+
+  DerivedObjConstructor dobj(4, "123");
+  ObjConstructor &robj = dobj;
+
+  robj.describe(std::cout);
+  std::cout << std::endl;
+
+  dobj = DerivedObjConstructor(2, "111", 3);
+  robj.describe(std::cout);
+}
+void demo_container_inheritance()
+{
+  // （智能）指针实现容器里存放多种类型
+  std::vector<std::shared_ptr<Quote>> basket;
+
+  for (int i = 0; i < 10; ++i)
+  {
+    basket.push_back(std::make_shared<BulkQuote>("123123", 50, 10, 0.01 * i));
+  }
+
+  for (int i = 0; i < 10; ++i)
+  {
+    for (int j = 5; j < 15; ++j)
+    {
+      std::cout << basket[i]->net_price(j) << std::endl;
+    }
+  }
+}
+void demo_basket()
+{
+  Basket bskt;
+  bskt.add_item(std::make_shared<Quote>("123123", 45));
+  bskt.add_item(std::make_shared<BulkQuote>("123123", 45, 2, 0.3));
+  bskt.add_item(std::make_shared<BulkQuote>("123123", 45, 2, 0.3));
+  bskt.add_item(std::make_shared<BulkQuote>("123123", 45, 2, 0.3));
+  bskt.add_item(std::make_shared<BulkQuote>("1231234", 45, 10, 0.2));
+
+  bskt.total_receipt(std::cout);
+}
+
 int main(int argc, char **argv)
 {
   RUN_DEMO(demo_type_conversion);
@@ -128,5 +221,11 @@ int main(int argc, char **argv)
   RUN_DEMO(demo_default_argument);
   RUN_DEMO(demo_abstract_base_class);
   RUN_DEMO(demo_access);
+  RUN_DEMO(demo_virtual_func_scope);
+  RUN_DEMO(demo_virtual_destructor);
+  RUN_DEMO(demo_copy_control);
+  RUN_DEMO(demo_inheriting_constructor);
+  RUN_DEMO(demo_container_inheritance);
+  RUN_DEMO(demo_basket);
   return EXIT_SUCCESS;
 }

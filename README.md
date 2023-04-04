@@ -1,8 +1,11 @@
 # Accelerated C++ Playground
 
+## Cheatsheets
+- [https://github.com/mortennobel/cpp-cheatsheet](https://github.com/mortennobel/cpp-cheatsheet)
 
+- [https://github.com/AnthonyCalandra/modern-cpp-features](https://github.com/AnthonyCalandra/modern-cpp-features)
 
-# References
+## References
 
 - [https://cplusplus.com/reference/](https://cplusplus.com/reference/)
 

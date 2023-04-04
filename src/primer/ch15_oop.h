@@ -4,62 +4,6 @@
 #include <cstddef>
 #include "utils.h"
 
-class Quote
-{
-public:
-  Quote() = default;
-  Quote(const Quote &q) : book_no(q.book_no), price(q.price) {}
-  Quote(const std::string &book, double sales_price) : book_no(book), price(sales_price) {}
-  std::string isbn() const { return book_no; }
-  virtual double net_price(std::size_t n) const
-  {
-    return n * price;
-  }
-  virtual ~Quote() = default; // 析构函数一般都要定义为virtual
-
-private:
-  std::string book_no;
-
-protected:
-  double price = 0.0;
-};
-
-class BulkQuote; // 声明子类的时候不能写派生列表
-
-class BulkQuote : public Quote // 被用作基类的类必须已经被定义
-{
-public:
-  BulkQuote() = default;
-  BulkQuote(const std::string &, double, std::size_t, double);
-  double net_price(std::size_t n) const override; // override关键字，顺序：const && override
-private:
-  std::size_t min_qty = 0; // 最小批发量
-  double discount = 0.0;   // 折扣
-};
-
-class DiscQuote : public Quote
-{
-
-public:
-  DiscQuote() = default;
-  DiscQuote(const std::string &s, double p, std::size_t q, double disc)
-      : Quote(s, p), quantity(q), discount(disc) {}
-  double net_price(std::size_t) const override = 0;
-
-protected:
-  std::size_t quantity = 0;
-  double discount = 0.0;
-};
-
-class BulkQuote2 : DiscQuote
-{
-public:
-  BulkQuote2() = default;
-  BulkQuote2(const std::string &s, double p, std::size_t q, double disc)
-      : DiscQuote(s, p, q, disc) {}
-  double net_price(std::size_t n) const override; // override关键字，顺序：const && override
-};
-
 // final 关键字
 class NoDerived final // final类不能作为基类，和Java一样
 {
@@ -214,4 +158,135 @@ class DefaultDeriveClass : Base
 struct DefaultDeriveStruct : Base
 {
   // <=> : public Base
+};
+
+// 虚函数与作用域
+class Base1
+{
+public:
+  virtual int fcn()
+  {
+    std::cout << "Base1::fcn()" << std::endl;
+    return 0;
+  }
+};
+
+class D1 : public Base1
+{
+public:
+  int fcn()
+  {
+    std::cout << "D1::fcn()" << std::endl;
+    return 0;
+  }
+  int fcn(int)
+  {
+    std::cout << "D1::fcn(int)" << std::endl;
+    return 0;
+  }
+  virtual void f2()
+  {
+    std::cout << "D1::f2()" << std::endl;
+  }
+};
+
+class D2 : public D1
+{
+public:
+  // using D1::fcn;
+  int fcn(int)
+  {
+    std::cout << "D2::fcn(int)" << std::endl;
+    return 0;
+  }
+  int fcn()
+  {
+    std::cout << "D2::fcn()" << std::endl;
+    return 0;
+  }
+  void f2()
+  {
+    std::cout << "D2::f2()" << std::endl;
+  }
+};
+
+class D3 : public D2
+{
+
+public:
+  using D2::fcn; // 用using导入fcn的所有重载版本，只覆盖其中一个，如果不用using，则需要覆盖所有重载版本，很麻烦
+  int fcn(int)
+  {
+    std::cout << "D3::fcn()" << std::endl;
+    return 0;
+  }
+};
+
+class ObjVirtualDestructor
+{
+
+public:
+  ObjVirtualDestructor() : sp1(new std::string()) {}
+  virtual ~ObjVirtualDestructor() // 虚析构函数
+  {
+    delete sp1;
+    std::cout << "ObjVirtualDestructor.sp1 is deleted." << std::endl;
+  };
+  virtual void some_func()
+  {
+    std::cout << "ObjVirtualDestructor::some_func()" << std::endl;
+  }
+
+private:
+  std::string *sp1;
+};
+
+class DerivedObjVirtualDestructor : public ObjVirtualDestructor
+{
+public:
+  DerivedObjVirtualDestructor() : ObjVirtualDestructor(), ip1(new int{42}) {}
+  ~DerivedObjVirtualDestructor()
+  {
+    std::cout << "DerivedObjVirtualDestructor.ip1 is deleted." << std::endl;
+    delete ip1;
+  }
+  void some_func()
+  {
+    std::cout << "DerivedObjVirtualDestructor::some_func()" << std::endl;
+  }
+
+private:
+  int *ip1;
+};
+
+class ObjConstructor
+{
+public:
+  ObjConstructor(int i, std::string s) : i(i), s(s) {}
+  virtual void describe(std::ostream &os)
+  {
+    os << OUTPUT_VAL(i) << ", " << OUTPUT_VAL(s);
+  }
+
+private:
+  int i;
+  std::string s;
+};
+
+class DerivedObjConstructor : public ObjConstructor
+{
+public:
+  // 构造函数的using不管在哪，都不会改变构造函数的访问级别，基类public的constructor就算在子类private里面using，也还是public
+  // 构造函数的默认参数不会被继承，using会得到多个构造函数，每个构造函数省略几个默认参数
+  using ObjConstructor::ObjConstructor;
+
+  DerivedObjConstructor(int i, std::string s, int d) : ObjConstructor(i, s), derived_i(d) {}
+  void describe(std::ostream &os)
+  {
+    ObjConstructor::describe(os);
+    os << ", " << OUTPUT_VAL(derived_i);
+  }
+
+private:
+  int derived_i;
 };
