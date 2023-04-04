@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <string>
+#include <iostream>
 
 class Quote
 {
@@ -9,7 +10,9 @@ public:
   Quote() = default;
   Quote(const Quote &q) : book_no(q.book_no), price(q.price) {}
   Quote(const std::string &book, double sales_price) : book_no(book), price(sales_price) {}
+  // 图书编号
   std::string isbn() const { return book_no; }
+  // 实际销售价格
   virtual double net_price(std::size_t n) const
   {
     return n * price;
@@ -40,11 +43,11 @@ public:
   BulkQuote() = default;
   BulkQuote(const std::string &, double, std::size_t, double);
   double net_price(std::size_t n) const override; // override关键字，顺序：const && override
-  virtual BulkQuote *clone() const &
+  virtual BulkQuote *clone() const & override
   {
     return new BulkQuote(*this);
   }
-  virtual BulkQuote *clone() &&
+  virtual BulkQuote *clone() && override
   {
     return new BulkQuote(std::move(*this));
   }

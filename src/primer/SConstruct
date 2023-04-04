@@ -55,6 +55,7 @@ Program(
         "ch15_oop.cpp",
         "utils.cpp",
         "basket.cpp",
+        "quote.cpp",
     ],
     CCFLAGS=CCFLAGS,
 )
