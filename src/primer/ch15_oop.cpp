@@ -131,6 +131,27 @@ void demo_virtual_func_scope()
 
   D3 d3obj;
   d3obj.fcn();
+
+  NonVirtualBase nvb;
+  VirtualDerived vd;
+  VirtualDerived2 vd2;
+
+  NonVirtualBase &r1 = nvb, &r2 = vd, &r3 = vd2;
+  // non-virtual function，编译期绑定
+  r1.some_func();
+  r2.some_func();
+  r3.some_func();
+
+  r1.another_func();
+  r2.another_func();
+  r3.another_func();
+
+  VirtualDerived &dr1 = vd, &dr2 = vd2;
+
+  dr1.some_func();
+  dr2.some_func();
+  dr1.another_func(1);
+  dr2.another_func(2);
 }
 
 void demo_virtual_destructor()
@@ -142,10 +163,15 @@ void demo_virtual_destructor()
   */
   ObjVirtualDestructor *obj = new DerivedObjVirtualDestructor();
   delete obj;
+
+  DemoObjDestructorBase *dobj2 = new DemoObjDestructorDerived2();
+  delete dobj2;
 }
 
 void demo_copy_control()
 {
+  NoDefaultConstructorBase x(1);
+  NoDefaultConstructorDerived d(1, 13.4);
 }
 
 void demo_inheriting_constructor()
@@ -163,6 +189,7 @@ void demo_inheriting_constructor()
   dobj = DerivedObjConstructor(2, "111", 3);
   robj.describe(std::cout);
 }
+
 void demo_container_inheritance()
 {
   // （智能）指针实现容器里存放多种类型

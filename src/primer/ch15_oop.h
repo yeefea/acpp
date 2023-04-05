@@ -290,3 +290,104 @@ public:
 private:
   int derived_i;
 };
+
+struct NonVirtualBase
+{
+  void some_func() // 这个是non-virtual method，编译期绑定
+  {
+    std::cout << "NonVirtualBase::some_func()" << std::endl;
+  }
+  void another_func() // 这个是non-virtual method，编译期绑定
+  {
+    std::cout << "NonVirtualBase::another_func()" << std::endl;
+  }
+};
+
+struct VirtualDerived : public NonVirtualBase
+{
+
+  virtual void some_func() // 子类虽然可以覆盖父类的non-virtual method，但是这样写会迷糊
+  {
+    std::cout << "VirtualDerived::some_func()" << std::endl;
+  }
+  virtual void another_func(int i)
+  {
+    std::cout << "VirtualDerived::another_func(" << i << ")" << std::endl;
+  }
+};
+
+struct VirtualDerived2 : public VirtualDerived
+{
+  void some_func() override
+  {
+    std::cout << "VirtualDerived2::some_func()" << std::endl;
+  }
+  void another_func(int i) override
+  {
+    std::cout << "VirtualDerived2::another_func(" << i << ")" << std::endl;
+  }
+};
+
+struct NoDefaultConstructorBase
+{
+public:
+  NoDefaultConstructorBase() = delete;
+  NoDefaultConstructorBase(int ii) : i(ii)
+  {
+    std::cout << "NoDefaultConstructorBase::constructor" << std::endl;
+  }
+
+private:
+  int i;
+};
+
+struct NoDefaultConstructorDerived : public NoDefaultConstructorBase
+{
+public:
+  NoDefaultConstructorDerived(int ii, double dd) : NoDefaultConstructorBase(ii), d(dd)
+  {
+    std::cout << "NoDefaultConstructorDerived::constructor" << std::endl;
+  }
+
+private:
+  double d;
+};
+
+struct DemoObjDestructorBase
+{
+  virtual ~DemoObjDestructorBase()
+  {
+    // 析构的时候会固定调用DemoObjDestructorBase::print
+    print();
+  }
+  virtual void print()
+  {
+    std::cout << "DemoObjDestructorBase destructor" << std::endl;
+  }
+};
+
+struct DemoObjDestructorDerived1 : public DemoObjDestructorBase
+{
+  virtual ~DemoObjDestructorDerived1()
+  {
+    // 析构的时候会固定调用DemoObjDestructorDerived1::print
+    print();
+  }
+  void print() override
+  {
+    std::cout << "DemoObjDestructorDerived1 destructor" << std::endl;
+  }
+};
+
+struct DemoObjDestructorDerived2 : public DemoObjDestructorDerived1
+{
+  virtual ~DemoObjDestructorDerived2()
+  {
+    // 析构的时候会固定调用DemoObjDestructorDerived2::print
+    print();
+  }
+  void print() override
+  {
+    std::cout << "DemoObjDestructorDerived2 destructor" << std::endl;
+  }
+};

@@ -19,6 +19,18 @@ public:
               std::shared_ptr<std::set<TextQuery::line_no>> p,
               std::shared_ptr<std::vector<std::string>> f)
       : sought(s), lines(p), file(f) {}
+  std::set<TextQuery::line_no>::iterator begin()
+  {
+    return lines->begin();
+  }
+  std::set<TextQuery::line_no>::iterator end()
+  {
+    return lines->end();
+  }
+  std::shared_ptr<std::vector<std::string>> get_file()
+  {
+    return file;
+  }
 
 private:
   std::string sought;
