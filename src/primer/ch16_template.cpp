@@ -3,11 +3,18 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <list>
 #include <memory>
+#include <type_traits>
 #include <vector>
 
 #include "blob.h"
 #include "utils.h"
+
+// 问题：类模板的成员模板怎么显式实例化？
+// 显式实例化
+// 实例化声明，在ch16_template_instance.cpp中实例化
+extern template int compare(const int &, const int &);
 
 void demo_function_template() {
   auto cmp_res = compare(1, 2);
@@ -65,11 +72,50 @@ void demo_template_alias() {
 }
 
 void demo_template_static_member() {}
+
+void demo_template_default_params() {
+  Numbers<long double> ddd(0.123);
+  Numbers<> iii(123);  // 总是需要尖括号
+}
+
+void demo_member_template() {
+  // 成员模板不能是虚函数！！！
+
+  std::unique_ptr<int, DebugDelete> p(new int, DebugDelete());
+
+  std::unique_ptr<std::string, DebugDelete> sp(new std::string, DebugDelete());
+
+  std::list<const char *> w = {"now", "is", "the", "time"};
+
+  Blob2<std::string> a3(w.begin(), w.end());
+}
+
+void demo_type_deduction() {
+  std::vector<int> vi = {1, 2, 3, 4, 5};
+  auto &i = fcn(vi.begin(), vi.end());
+
+  std::cout << OUTPUT_VAL(i) << std::endl;
+}
+
+void demo_type_traits() {
+  int i = 123;
+  int *pi = &i;
+  std::remove_reference<decltype(*pi)>::type x;  // x is int..... nb...
+
+  std::vector<int> vi = {1, 2, 3, 4, 5};
+  auto i = fcn2(vi.begin(), vi.end());
+  std::cout << OUTPUT_VAL(i) << std::endl;
+  std::remove_pointer<int *>::type ii = 1;
+}
 int main(int argc, char **argv) {
   RUN_DEMO(demo_function_template);
   RUN_DEMO(demo_class_template);
   RUN_DEMO(demo_template);
   RUN_DEMO(demo_template_alias);
   RUN_DEMO(demo_template_static_member);
+  RUN_DEMO(demo_template_default_params);
+  RUN_DEMO(demo_member_template);
+  RUN_DEMO(demo_type_deduction);
+  RUN_DEMO(demo_type_traits);
   return EXIT_SUCCESS;
 }

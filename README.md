@@ -19,6 +19,33 @@ include path
 
 ```
 
+## MySQL
+
+ubuntu
+```bash
+sudo apt-get install libmysqlclient-dev libmysqlcppconn-dev
+```
+
+
+## Redis
+
+hiredis
+redis-plus-plus
+
+## MQ
+
+### ZeroMQ
+
+
+### Kafka
+
+https://github.com/confluentinc/librdkafka
+
+```bash
+sudo apt install librdkafka-dev
+```
+
+
 ## Cheatsheets
 - [https://github.com/mortennobel/cpp-cheatsheet](https://github.com/mortennobel/cpp-cheatsheet)
 
