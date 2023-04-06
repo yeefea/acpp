@@ -1,16 +1,15 @@
-#include <iostream>
-#include <cstdlib>
+#include "ch16_template.h"
+
 #include <cstddef>
+#include <cstdlib>
+#include <iostream>
 #include <memory>
 #include <vector>
 
-#include "ch16_template.h"
-#include "utils.h"
 #include "blob.h"
+#include "utils.h"
 
-void demo_function_template()
-{
-
+void demo_function_template() {
   auto cmp_res = compare(1, 2);
   std::cout << OUTPUT_VAL(cmp_res) << std::endl;
 
@@ -27,8 +26,7 @@ void demo_function_template()
   std::cout << OUTPUT_VAL(res) << std::endl;
 }
 
-void demo_class_template()
-{
+void demo_class_template() {
   Blob<int> ia;
   ia.describe(std::cout);
   Blob<int> ia2 = {0, 1, 2, 3, 4, 5};
@@ -40,18 +38,38 @@ void demo_class_template()
   std::cout << OUTPUT_VAL(ifront) << ", " << OUTPUT_VAL(iback) << std::endl;
 }
 
-void demo_template()
-{
-  std::shared_ptr<std::vector<std::string>> pvs = std::make_shared<std::vector<std::string>>();
+void demo_template() {
+  std::shared_ptr<std::vector<std::string>> pvs =
+      std::make_shared<std::vector<std::string>>();
   pvs->push_back("123123");
   pvs->push_back("1231233333");
   describe_vector(*pvs);
 }
 
-int main(int argc, char **argv)
-{
+// 模板类型别名
+// 1.
+typedef Blob<std::string> StrBlob;
+
+// 2.
+template <typename T>
+using twin = std::pair<T, T>;
+
+// 3.
+template <typename T>
+using PartNo = std::pair<T, unsigned>;
+
+void demo_template_alias() {
+  StrBlob sb;
+  twin<int> ii = {1, 2};
+  PartNo<std::string> pp = {"123123", 1};
+}
+
+void demo_template_static_member() {}
+int main(int argc, char **argv) {
   RUN_DEMO(demo_function_template);
   RUN_DEMO(demo_class_template);
   RUN_DEMO(demo_template);
+  RUN_DEMO(demo_template_alias);
+  RUN_DEMO(demo_template_static_member);
   return EXIT_SUCCESS;
 }
