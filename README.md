@@ -54,6 +54,10 @@ sudo apt install librdkafka-dev
 
 ## Libraries
 
+### Web Framework
+
+Oat++
+
 ### Boost
 
 
