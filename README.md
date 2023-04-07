@@ -42,6 +42,8 @@ redis-plus-plus
 sudo apt -y install libzmq3-dev
 ```
 
+libzmq + cppzmq
+
 ### Kafka
 
 https://github.com/confluentinc/librdkafka
