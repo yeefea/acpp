@@ -19,12 +19,15 @@ include path
 
 ```
 
-## MySQL
+## Database
+
+### MySQL
 
 ubuntu
 ```bash
 sudo apt-get install libmysqlclient-dev libmysqlcppconn-dev
 ```
+### PostgreSQL
 
 
 ## Redis
@@ -35,7 +38,9 @@ redis-plus-plus
 ## MQ
 
 ### ZeroMQ
-
+```bash
+sudo apt -y install libzmq3-dev
+```
 
 ### Kafka
 
@@ -44,6 +49,70 @@ https://github.com/confluentinc/librdkafka
 ```bash
 sudo apt install librdkafka-dev
 ```
+
+## Libraries
+
+### Boost
+
+
+### Abseil
+https://github.com/abseil/abseil-cpp
+
+### Asio
+http://think-async.com/Asio/Documentation.html
+
+
+### F-Stack
+https://github.com/F-Stack/f-stack
+
+### JSON
+
+https://github.com/Tencent/rapidjson
+
+### YAML
+
+```bash
+sudo apt -y install libyaml-cpp-dev
+```
+
+### Google Test
+https://github.com/google/googletest
+
+### Catch2
+https://github.com/catchorg/Catch2
+
+### Arg Parse
+
+https://github.com/p-ranav/argparse
+
+### Eigen
+
+
+### Linear Algebra
+
+libarmadillo-dev
+
+https://arma.sourceforge.net/
+
+## Build Tools
+### CMAKE
+
+### SCons
+
+### Bazel
+
+## Graphics
+
+OGRE
+
+## Parallel Computing
+
+### OpenMP
+
+### MPI
+
+### CUDA
+
 
 
 ## Cheatsheets
