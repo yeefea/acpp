@@ -103,10 +103,49 @@ void demo_type_traits() {
   std::remove_reference<decltype(*pi)>::type x;  // x is int..... nb...
 
   std::vector<int> vi = {1, 2, 3, 4, 5};
-  auto i = fcn2(vi.begin(), vi.end());
+  i = fcn2(vi.begin(), vi.end());
   std::cout << OUTPUT_VAL(i) << std::endl;
   std::remove_pointer<int *>::type ii = 1;
 }
+
+// 函数指针，实参推断，很神奇。。。自动推出了compare<int>
+int (*pf1)(const int &, const int &) = compare;
+
+auto pf2 = compare<int>;
+
+// 左值引用推断
+template <typename T>
+void f(T &p) {
+  std::cout << OUTPUT_VAL(p) << std::endl;
+}
+
+template <typename T>
+void f2(const T &cp) {
+  std::cout << OUTPUT_VAL(cp) << std::endl;
+}
+
+// 右值引用推断
+template <typename T>
+void f3(T &&rr) {
+  std::cout << OUTPUT_VAL(rr) << std::endl;
+}
+
+void demo_type_argument_deduction() {
+  int i = 1;
+  f(i);  // f<int>
+
+  const int ci = 13;
+  f(ci);  // f<const int>
+
+  // f(4);  error 左值引用不接受字面量
+
+  f2(4);  // f2<int>
+
+  f3(42);  // f3<int>
+
+  f3(i);  // f3<int&>引用折叠
+}
+
 int main(int argc, char **argv) {
   RUN_DEMO(demo_function_template);
   RUN_DEMO(demo_class_template);
@@ -117,5 +156,6 @@ int main(int argc, char **argv) {
   RUN_DEMO(demo_member_template);
   RUN_DEMO(demo_type_deduction);
   RUN_DEMO(demo_type_traits);
+  RUN_DEMO(demo_type_argument_deduction);
   return EXIT_SUCCESS;
 }
