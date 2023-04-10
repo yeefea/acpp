@@ -27,6 +27,9 @@ ubuntu
 ```bash
 sudo apt-get install libmysqlclient-dev libmysqlcppconn-dev
 ```
+
+### ClickHouse
+
 ### PostgreSQL
 
 
@@ -54,10 +57,6 @@ sudo apt install librdkafka-dev
 
 ## Libraries
 
-### Web Framework
-
-Oat++
-
 ### Boost
 
 
@@ -80,6 +79,8 @@ https://github.com/Tencent/rapidjson
 ```bash
 sudo apt -y install libyaml-cpp-dev
 ```
+### Web Framework
+Oat++
 
 ### Google Test
 https://github.com/google/googletest
@@ -118,6 +119,23 @@ OGRE
 ### MPI
 
 ### CUDA
+
+## Tools
+
+### GDB
+
+### Gprof
+
+
+### Valgrind
+
+
+### Sanitizer
+https://github.com/google/sanitizers
+- AddressSanitizer
+- ThreadSanitizer
+- ...
+
 
 
 
