@@ -153,7 +153,7 @@ SortableObj SortableObj::sorted() const & {
   return ret;
 }
 
-void process_r_ref(std::string &&s) {
+void func_accept_value_ref(std::string &&s) {
   //
   std::cout << OUTPUT_VAL(s) << std::endl;
 }
@@ -194,13 +194,19 @@ void demo_move() {
 
   Foo x;
   Foo y(x);
-  Foo z(std::move(
-      x));  // 因为Foo没有移动构造函数，所以即使用了move还是调用拷贝构造函数，Foo&&转const
-            // Foo&
+  // 因为Foo没有移动构造函数，所以即使用了move还是调用拷贝构造函数
+  // Foo&&转const Foo&
+  Foo z(std::move(x));
 
   std::string s = "123";
   std::string &ref_s = s;
   std::string &&r_ref_s = std::move(s);
+
+  // func_accept_value_ref(s);  error, s是左值
+  // func_accept_value_ref(ref_s);  error, ref_s是左值
+  // func_accept_value_ref(r_ref_s);  error, 右值引用本身是左值
+  func_accept_value_ref(std::move(r_ref_s));  // ok
+
   std::string &&r_ref_s2 = std::move(r_ref_s);
   std::cout << OUTPUT_VAL(s) << std::endl;
   std::cout << OUTPUT_VAL(ref_s) << std::endl;

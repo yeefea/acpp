@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <type_traits>
+#include <utility>  // std::forward
 #include <vector>
 
 #include "blob.h"
@@ -124,10 +125,32 @@ void f2(const T &cp) {
   std::cout << OUTPUT_VAL(cp) << std::endl;
 }
 
+template <typename T>
+T play(T val) {
+  return val + 1;
+}
+
 // 右值引用推断
 template <typename T>
-void f3(T &&rr) {
-  std::cout << OUTPUT_VAL(rr) << std::endl;
+void f3(T &&val) {
+  T t = val;
+  t = play(t);
+  if (val == t) {
+    std::cout << "type argument T is reference" << std::endl;
+  } else {
+    std::cout << "type argument T is not reference" << std::endl;
+  }
+  std::cout << OUTPUT_VAL(t) << ", " << OUTPUT_VAL(val) << std::endl;
+}
+
+template <typename T>
+void f3(T const &val) {
+  T t = val;
+  t = play(t);
+  std::cout
+      << "type argument T is a reference, function argument is a const ref."
+      << std::endl;
+  std::cout << OUTPUT_VAL(t) << ", " << OUTPUT_VAL(val) << std::endl;
 }
 
 void demo_type_argument_deduction() {
@@ -143,7 +166,29 @@ void demo_type_argument_deduction() {
 
   f3(42);  // f3<int>
 
-  f3(i);  // f3<int&>引用折叠
+  f3(i);  // f3<int&>引用折叠，i是左值
+
+  f3(ci);  // 调用f3(T const &val)版本
+
+  std::string s0 = "123123";
+
+  std::string s1 = const_cast<std::string &&>(s0);  // 和move一样的效果
+
+  std::cout << OUTPUT_VAL(s0) << ", " << OUTPUT_VAL(s1) << std::endl;
+}
+
+template <typename F, typename T1, typename T2>
+void flip(F f, T1 &&t1, T2 &&t2) {  // 万能引用
+  f(std::forward<T2>(t2), std::forward<T1>(t1));
+}
+
+void g(int &&i, int &j) {
+  std::cout << OUTPUT_VAL(i) << " " << OUTPUT_VAL(j) << std::endl;
+}
+
+void demo_forward() {
+  int i = 10;
+  flip(g, i, 42);
 }
 
 int main(int argc, char **argv) {
