@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <memory>
+#include <sstream>
 #include <type_traits>
 #include <utility>  // std::forward
 #include <vector>
@@ -191,6 +192,41 @@ void demo_forward() {
   flip(g, i, 42);
 }
 
+template <typename T>
+std::string debug_rep(const T &obj) {
+  std::ostringstream ret;
+  ret << obj;
+  return ret.str();
+}
+
+template <typename T>
+std::string debug_rep(T *p) {
+  std::ostringstream ret;
+  ret << "pointer: " << p;
+  if (p) {
+    ret << "->" << debug_rep(*p);
+  } else {
+    ret << " nullptr";
+  }
+  return ret.str();
+}
+
+void demo_template_overload() {
+  std::string s("hi");
+  std::cout << debug_rep(s) << std::endl;
+  std::cout << debug_rep(&s) << std::endl;
+}
+
+template <typename T, typename... Args>
+void vardiac_generic_func(const T& t, const Args& ... rest){
+  std::cout<<OUTPUT_VAL(sizeof...(Args))<<std::endl;
+  std::cout<<OUTPUT_VAL(sizeof...(rest))<<std::endl;
+}
+
+void demo_variadic_template() {
+  vardiac_generic_func(1, 2, 3.0);
+}
+
 int main(int argc, char **argv) {
   RUN_DEMO(demo_function_template);
   RUN_DEMO(demo_class_template);
@@ -202,5 +238,7 @@ int main(int argc, char **argv) {
   RUN_DEMO(demo_type_deduction);
   RUN_DEMO(demo_type_traits);
   RUN_DEMO(demo_type_argument_deduction);
+  RUN_DEMO(demo_template_overload);
+  RUN_DEMO(demo_variadic_template);
   return EXIT_SUCCESS;
 }
