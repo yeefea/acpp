@@ -266,5 +266,98 @@ template class Blob<std::string>;
 实例化定义会实例化所有成员，而不是实例化用到的成员。
 
 
-## 模板实参推断
+## 类型转换
 
+
+- const: 顶层const会被忽略，无论形参还是实参
+- 数组或函数指针:
+    - 如果形参不是引用类型，会把数组/函数实参转为指针
+    - 数组实参转为首地址指针，函数转为函数指针
+    - 形参是引用类型则不能转换类型
+    - 其他算数转换、派生类转基类都不能用于模板
+
+
+```c++
+template <typename T> T fobj(T, T);
+template <typename T> T fref(const T&, const T&);
+
+std::string s1("a val");
+const std::string s2("another val");
+
+fobj(s1, s2);   // ok, ignore top-level const
+fref(s1, s2);   // ok, ignore top-level const
+
+int a[10], b[42];
+fobj(a, b); // ok, array to int*
+// fref(a, b); // compile error 这样是不行的
+```
+
+## 显式实参
+
+```c++
+template <typename T1, typename T2, typename T3>
+T1 sum(T2, T3);
+
+auto val3 = sum<long long>(1, 2L);  // 只要给出第一个类型参数，后面两个会自动推导
+
+
+template <typename T1, typename T2, typename T3>
+T3 sum(T1, T2);
+
+auto val2<long long, int, long> sum(1LL, 2L);  // 最后一个类型参数无法推导，只能把前两个也写上，否则无法编译
+```
+
+```c++
+long lng;
+// compare(lng, 1024); 这样是不行的
+compare<long>(lng, 1024);   // ok
+compare<int>(lng, 1024);    // ok
+```
+
+
+## 尾置返回类型
+
+```c++
+template <typename It>
+auto fcn(It beg, It end) 
+-> typename std::remove_reference<decltype(*beg)>::type  // 返回拷贝值
+{
+    return *beg;
+}
+```
+
+## type_traits
+
+一般用在模板里
+```c++
+typename type_trait_name<SomeType>::type
+```
+
+- remove_reference
+- add_const
+- add_lvalue_reference
+- add_rvalue_reference
+- remove_pointer
+- add_pointer
+- make_signed
+- make_unsigned
+- remove_extent
+- remove_all_extent
+
+## 函数指针
+
+```c++
+template <typename T> int compare(const T&, const T&);
+int (*pf1)(const int&, const int&) = compare;  // 自动推理出T=int
+
+
+void func(int(*)(const string&, const string&));
+void func(int(*)(const int&, const int&));
+
+// func(compare); 这样不行，有歧义
+func(compare<int>);  // ok
+```
+
+## 引用形参推断
+
+TODO

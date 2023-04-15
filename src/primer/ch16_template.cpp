@@ -218,14 +218,12 @@ void demo_template_overload() {
 }
 
 template <typename T, typename... Args>
-void vardiac_generic_func(const T& t, const Args& ... rest){
-  std::cout<<OUTPUT_VAL(sizeof...(Args))<<std::endl;
-  std::cout<<OUTPUT_VAL(sizeof...(rest))<<std::endl;
+void vardiac_generic_func(const T &t, const Args &...rest) {
+  std::cout << OUTPUT_VAL(sizeof...(Args)) << std::endl;
+  std::cout << OUTPUT_VAL(sizeof...(rest)) << std::endl;
 }
 
-void demo_variadic_template() {
-  vardiac_generic_func(1, 2, 3.0);
-}
+void demo_variadic_template() { vardiac_generic_func(1, 2, 3.0); }
 
 int main(int argc, char **argv) {
   RUN_DEMO(demo_function_template);
