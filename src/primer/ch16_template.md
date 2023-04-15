@@ -361,3 +361,50 @@ func(compare<int>);  // ok
 ## 引用形参推断
 
 TODO
+
+
+## CRTP
+
+```c++
+template <typename D>
+class Base
+{
+public:
+  void interface() {
+    static_cast<D *>(this)->implement();
+  }
+
+  static void static_interface() {
+    D::static_interface();
+  }
+
+  void implement() {
+    std::cout << "Base" << std::endl;
+  }
+};
+
+class DerivedFoo : public Base<DerivedFoo>
+{
+public:
+  void implement() {
+    std::cout << "Foo" << std::endl;
+  }
+  static void static_interface() {
+    std::cout << "Static Foo" << std::endl;
+  }
+};
+
+class DerivedBar : public Base<DerivedBar> {};
+
+int main (int argc, char *argv[])
+{
+  DerivedFoo foo;
+  DerivedBar bar;
+
+  foo.interface();
+  foo.static_interface();
+  bar.interface();
+
+  return 0;
+}
+```
