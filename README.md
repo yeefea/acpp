@@ -101,12 +101,6 @@ libarmadillo-dev
 
 https://arma.sourceforge.net/
 
-## Build Tools
-### CMAKE
-
-### SCons
-
-### Bazel
 
 ## Graphics
 
@@ -122,7 +116,20 @@ OGRE
 
 ## Tools
 
+### Cling
+
+C++ REPL
+
+### Build Tools
+#### CMAKE
+
+#### SCons
+
+#### Bazel
+
+
 ### GDB
+
 
 ### Gprof
 
@@ -136,7 +143,13 @@ https://github.com/google/sanitizers
 - ThreadSanitizer
 - ...
 
+### Tracer
 
+TODO
+
+### Package manager
+
+TODO
 
 
 ## Cheatsheets
