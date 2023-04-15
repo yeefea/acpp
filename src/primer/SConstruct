@@ -11,6 +11,8 @@ ch14 = os.path.join(OUTPUT_DIR, "ch14")
 ch15 = os.path.join(OUTPUT_DIR, "ch15")
 ch16 = os.path.join(OUTPUT_DIR, "ch16")
 ch17 = os.path.join(OUTPUT_DIR, "ch17")
+ch18 = os.path.join(OUTPUT_DIR, "ch18")
+ch19 = os.path.join(OUTPUT_DIR, "ch19")
 
 Program(
     ch7,
@@ -75,6 +77,15 @@ Program(
     ch17,
     [
         "ch17_stdlib.cpp",
+        "utils.cpp",
+    ],
+    CCFLAGS=CCFLAGS,
+)
+
+Program(
+    ch18,
+    [
+        "ch18_tools.cpp",
         "utils.cpp",
     ],
     CCFLAGS=CCFLAGS,
