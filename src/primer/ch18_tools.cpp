@@ -38,9 +38,26 @@ void demo_exception() {
 
   good_function();
 }
+int print(int i, int j, int k) { return i + j + k; }
 
 void demo_namespace() {
   ::good_function();  // 全局命名空间
+  A::C cobj;
+  f(cobj);  // f能找到，因为参数是类C，会在类C所属的namespace A中查找
+  // f2(); f2找不到
+  A::f2();  // 一定要A::f2
+
+  // 继承，命名空间查找
+  BulkItem book1;
+  display(book1);  // display定义在基类的namespace里，也被带进来了
+
+  using namespace p1;  // 引入print(int)
+  using namespace p2;     // 引入print(int, int), print(double, double)
+  // 现在print有4个版本了
+  print(1);
+  print(1, 2);
+  print(1, 2, 3);
+  print(1.0, 2.0);
 }
 
 void demo_multi_inheritance() {}
