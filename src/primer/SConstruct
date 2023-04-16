@@ -90,3 +90,12 @@ Program(
     ],
     CCFLAGS=CCFLAGS,
 )
+
+Program(
+    ch19,
+    [
+        "ch19_special_tools.cpp",
+        "utils.cpp",
+    ],
+    CCFLAGS=CCFLAGS,
+)
