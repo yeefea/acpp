@@ -16,6 +16,23 @@ void describe_vector(const std::vector<T> &vec) {
   std::cout << "] size: " << vec.size() << std::endl;
 }
 
+template <typename It>
+void describe_sequencial_container(It beg, It end) {
+  std::cout << "[";
+  size_t size = 0;
+  auto iter = beg;
+  if (iter != end) {
+    std::cout << *iter;
+    ++iter;
+    ++size;
+  }
+  for (; iter != end; ++iter) {
+    std::cout << ", " << *iter;
+    ++size;
+  }
+  std::cout << "] size: " << size << std::endl;
+}
+
 template <typename T>
 void describe_array(const T *begin, const T *end) {
   std::cout << "[";
