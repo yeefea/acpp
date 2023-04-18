@@ -159,3 +159,163 @@ union Token {
   int ival;
   double dval;
 };
+
+union ComplexToken {
+  // union成员默认public，这点和struct一样
+  std::string sval;
+  char cval;
+  int ival;
+  double dval;
+
+  // union如果有类类型成员，则无法合成构造、析构函数，要手工定义
+  ComplexToken() : ival(1) {}
+  ~ComplexToken() {}
+};
+
+// union的管理类，discriminant
+class ComplexToken2 {
+ public:
+  ComplexToken2() : tok(INT), ival{0} {}
+  ComplexToken2(const ComplexToken2& t) : tok(t.tok) { copy_union(t); }
+  ComplexToken2& operator=(const ComplexToken2& t);
+  ~ComplexToken2() {
+    if (tok == STR) {
+      sval.~basic_string();
+    }
+  }
+
+  ComplexToken2& operator=(const std::string&);
+  ComplexToken2& operator=(char);
+  ComplexToken2& operator=(int);
+  ComplexToken2& operator=(double);
+
+ private:
+  // enum元素和union成员一一对应
+  enum { INT, CHAR, DBL, STR } tok;
+  union {
+    char cval;
+    int ival;
+    double dval;
+    std::string sval;
+  };
+  void copy_union(const ComplexToken2&);
+};
+
+// copy constructor
+ComplexToken2& ComplexToken2::operator=(const ComplexToken2& t) {
+  if (tok == STR && t.tok != STR) {
+    sval.~basic_string();  // 析构
+  }
+  // 左边的str已经析构函数掉了
+
+  if (tok == STR && t.tok == STR) {
+    // 两边都是string，直接赋值
+    sval = t.sval;
+  } else {
+    copy_union(t);
+  }
+  tok = t.tok;
+  return *this;
+}
+
+ComplexToken2& ComplexToken2::operator=(const std::string& s) {
+  if (tok == STR) {
+    sval = s;
+  } else {
+    new (&sval) std::string(s);
+  }
+  tok = STR;
+  return *this;
+}
+
+ComplexToken2& ComplexToken2::operator=(char c) {
+  if (tok == STR) {
+    sval.~basic_string();
+  }
+  cval = c;
+  tok = CHAR;
+  return *this;
+}
+
+ComplexToken2& ComplexToken2::operator=(int i) {
+  if (tok == STR) {
+    sval.~basic_string();
+  }
+  ival = i;
+  tok = INT;
+  return *this;
+}
+
+ComplexToken2& ComplexToken2::operator=(double d) {
+  if (tok == STR) {
+    sval.~basic_string();
+  }
+  dval = d;
+  tok = DBL;
+  return *this;
+}
+
+void ComplexToken2::copy_union(const ComplexToken2& t) {
+  switch (t.tok) {
+    case ComplexToken2::INT:
+      ival = t.ival;
+      break;
+    case ComplexToken2::CHAR:
+      cval = t.cval;
+      break;
+    case ComplexToken2::DBL:
+      dval = t.dval;
+      break;
+    case ComplexToken2::STR:
+      new (&sval) std::string(t.sval);  // placement new operator
+      break;
+  }
+}
+
+typedef unsigned int Bit;
+
+class File {
+ public:
+  Bit mode : 2;        // 2 bits
+  Bit modified : 1;    // 1 bit
+  Bit prot_owner : 3;  // 3 bits
+  Bit prot_group : 3;  // 3 bits
+  Bit prot_world : 3;  // 3 bits
+
+  enum modes { READ = 01, WRITE = 02, EXECUTE = 03 };
+  File() : prot_owner(7), prot_group(5), prot_world(5) {}
+  File& open(modes);
+  void close();
+  void write();
+  bool is_read() const { return mode & READ; }
+  void set_write() { mode |= WRITE; }
+};
+
+void File::write() {
+  modified = 1;
+  std::cout << "write file" << std::endl;
+}
+
+void File::close() {
+  if (modified) {
+    std::cout << "write to disk" << std::endl;
+  }
+  std::cout << "close file" << std::endl;
+}
+
+File& File::open(modes m) {
+  mode |= READ;
+  std::cout << "open file" << std::endl;
+  if (m & WRITE) {
+    std::cout << "open file in write mode" << std::endl;
+  }
+  return *this;
+}
+
+class VObj {
+ public:
+  // 必须自定义volatile的拷贝构造函数
+  VObj(const volatile VObj&);
+  VObj& operator=(const volatile VObj&);
+  VObj& operator=(const volatile VObj&) volatile;
+};

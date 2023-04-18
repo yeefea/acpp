@@ -201,15 +201,52 @@ void demo_union() {
   Token *pt = new Token;
 
   delete pt;
+
+  ComplexToken u;
+  std::cout << OUTPUT_VAL(u.ival) << std::endl;
+
+  u.sval = "123123";
+  std::cout << OUTPUT_VAL(u.sval) << std::endl;
+  std::cout << OUTPUT_VAL(u.ival) << std::endl;
+  std::cout << OUTPUT_VAL(u.dval) << std::endl;
 }
 
 void demo_local_class() {}
 
-void demo_bit_field() {}
+void demo_bit_field() {
+  File f;
 
-void demo_volatile() {}
+  std::cout << OUTPUT_VAL(f.prot_owner) << std::endl;
+  std::cout << OUTPUT_VAL(f.prot_group) << std::endl;
+  std::cout << OUTPUT_VAL(f.prot_world) << std::endl;
 
-void demo_extern_c() {}
+  f.open(File::WRITE);
+  f.write();
+  f.close();
+}
+
+void demo_volatile() {
+  // 语法和const类似，有顶层volatile和底层volatile
+  volatile int display_register;
+  volatile int *ivp = &display_register;  // 底层
+  int i = 9;
+  int *volatile vip = &i;  // 顶层
+
+  volatile int iax[100];
+
+  describe_array(iax, iax + 100);
+}
+
+#ifdef __cplusplus
+
+extern "C" int strcmp(const char *, const char *);
+
+void demo_extern_c() {
+  auto res = strcmp("123", "456");
+  std::cout << OUTPUT_VAL(res) << std::endl;
+}
+#endif
+
 int main(int argc, char **argv) {
   RUN_DEMO(demo_operator);
   RUN_DEMO(demo_rtti);
@@ -218,5 +255,10 @@ int main(int argc, char **argv) {
   RUN_DEMO(demo_embedded_class);
   RUN_DEMO(demo_union);
   RUN_DEMO(demo_local_class);
+  RUN_DEMO(demo_bit_field);
+  RUN_DEMO(demo_volatile);
+#ifdef __cplusplus
+  RUN_DEMO(demo_extern_c);
+#endif
   return EXIT_SUCCESS;
 }
