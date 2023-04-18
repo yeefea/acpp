@@ -17,7 +17,7 @@ void describe_vector(const std::vector<T> &vec) {
 }
 
 template <typename It>
-void describe_sequencial_container(It beg, It end) {
+void describe_sequential_container(It beg, It end) {
   std::cout << "[";
   size_t size = 0;
   auto iter = beg;
