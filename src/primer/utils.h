@@ -1,53 +1,44 @@
 #pragma once
-#include <vector>
 #include <iostream>
+#include <vector>
 
 template <typename T>
-void describe_vector(const std::vector<T> &vec)
-{
+void describe_vector(const std::vector<T> &vec) {
   std::cout << "[";
   auto iter = vec.begin();
-  if (iter != vec.end())
-  {
+  if (iter != vec.end()) {
     std::cout << *iter;
     ++iter;
   }
-  for (; iter != vec.end(); ++iter)
-  {
+  for (; iter != vec.end(); ++iter) {
     std::cout << ", " << *iter;
   }
   std::cout << "] size: " << vec.size() << std::endl;
 }
 
 template <typename T>
-void describe_array(const T *begin, const T *end)
-{
+void describe_array(const T *begin, const T *end) {
   std::cout << "[";
   auto iter = begin;
-  if (iter != end)
-  {
+  if (iter != end) {
     std::cout << *iter;
     ++iter;
   }
-  for (; iter != end; ++iter)
-  {
+  for (; iter != end; ++iter) {
     std::cout << ", " << *iter;
   }
   std::cout << "] size: " << (end - begin) << std::endl;
 }
 
 template <typename T>
-std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end)
-{
+std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
   os << "[";
   auto iter = begin;
-  if (iter != end)
-  {
+  if (iter != end) {
     os << *iter;
     ++iter;
   }
-  for (; iter != end; ++iter)
-  {
+  for (; iter != end; ++iter) {
     os << ", " << *iter;
   }
   os << "]";
@@ -55,8 +46,7 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end)
 }
 
 #define RUN_DEMO(X)                      \
-  do                                     \
-  {                                      \
+  do {                                   \
     std::cout << ">>> " #X << std::endl; \
     X();                                 \
     std::cout << "\n\n";                 \
@@ -67,11 +57,10 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end)
 #define OUTPUT_VAL(X) #X "=" << (X)
 #define OUTPUT_MEMBER(OBJ, M) #M "=" << (OBJ.M)
 
+#define LOG(X) std::cout << OUTPUT_VAL(X) << std::endl;
+
 extern const int bufsize;
 extern const double pi;
 
-#define YEEFEA_NS_OPEN \
-  namespace yeefea     \
-  {
-
-#define YEEFEA_NS_CLOSE } // namespace yeefea
+#define YEEFEA_NS_OPEN namespace yeefea {
+#define YEEFEA_NS_CLOSE }  // namespace yeefea

@@ -5,6 +5,9 @@ CCFLAGS = "-I/home/yifei/.local/include -std=c++17 -O3"
 OUTPUT_DIR = "bin"
 
 ch7 = os.path.join(OUTPUT_DIR, "ch7")
+ch9 = os.path.join(OUTPUT_DIR, "ch9")
+ch10 = os.path.join(OUTPUT_DIR, "ch10")
+ch11 = os.path.join(OUTPUT_DIR, "ch11")
 ch12 = os.path.join(OUTPUT_DIR, "ch12")
 ch13 = os.path.join(OUTPUT_DIR, "ch13")
 ch14 = os.path.join(OUTPUT_DIR, "ch14")
@@ -20,6 +23,11 @@ Program(
     CCFLAGS=CCFLAGS,
 )
 
+Program(
+    ch9,
+    ["ch9_sequential_container.cpp", "utils.cpp"],
+    CCFLAGS=CCFLAGS,
+)
 
 Program(
     ch12,
