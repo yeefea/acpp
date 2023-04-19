@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "utils.h"
@@ -104,35 +105,56 @@ void demo_range_for() {
   }
   std::cout << OUTPUT_VAL(str) << std::endl;
 }
+void demo_vector_init() {
+  std::vector<int> v1(10);
+  std::vector<int> v2{10};
+  std::vector<int> v3(10, 1);
+  std::vector<int> v4{10, 1};
 
+  LOG_VEC(v1);
+  LOG_VEC(v2);
+  LOG_VEC(v3);
+  LOG_VEC(v4);
+
+  std::vector<std::string> sv1{10, "1"};
+
+  LOG_VEC(sv1);
+}
 void demo_vector() {
   std::vector<int> v1;  // 默认初始化
-  describe_vector(v1);
+  LOG_VEC(v1);
   std::vector<int> v2(v1);  // 拷贝初始化
-  describe_vector(v2);
+  LOG_VEC(v2);
   std::vector<int> v22 = v1;  // 拷贝初始化
-  describe_vector(v22);
+  LOG_VEC(v22);
   std::vector<std::string> v3(10, "123.4f");  // 直接初始化
-  describe_vector(v3);
+  LOG_VEC(v3);
   std::vector<float> v4(10);  // 直接初始化
-  describe_vector(v4);
+  LOG_VEC(v4);
   std::vector<double> v5{1.1, 2.2, 3.3, 4.4};  // 列表初始化
-  describe_vector(v5);
+  LOG_VEC(v5);
   std::vector<double> v55 = {1.1, 2.2, 3.3, 4.4};  // 列表初始化
-  describe_vector(v55);
+  LOG_VEC(v55);
+
+  std::cout << "demo vector move constructor" << std::endl;
+  std::vector<double> v6{1.1, 2.2, 3.3};
+  LOG_VEC(v6);
+  std::vector<double> v66(std::move(v6));  // 移动构造函数
+  LOG_VEC(v6);
+  LOG_VEC(v66);
 
   v55.push_back(123.4);
   v55.push_back(5678.9);
-  describe_vector(v55);
+  LOG_VEC(v55);
 
   std::cout << OUTPUT_VAL(v55.empty()) << std::endl;
   std::cout << OUTPUT_VAL(v55.size()) << std::endl;
   v55[3] = 1.3;
-  describe_vector(v55);
+  LOG_VEC(v55);
   v55 = v5;
-  describe_vector(v55);
+  LOG_VEC(v55);
   v55 = {1.2, 3.4, 5.6};
-  describe_vector(v55);
+  LOG_VEC(v55);
   std::cout << OUTPUT_VAL(v55 == v5) << std::endl;
   std::cout << OUTPUT_VAL(v55 != v5) << std::endl;
   std::cout << OUTPUT_VAL(v55 < v5) << std::endl;
@@ -147,7 +169,7 @@ void demo_vector() {
     ++scores[x / 10];
   }
 
-  describe_vector(scores);
+  LOG_VEC(scores);
 }
 
 void demo_iterator() {
@@ -280,7 +302,10 @@ int main(int argc, char **argv) {
   RUN_DEMO(demo_string_operation);
   RUN_DEMO(demo_cctype);
   RUN_DEMO(demo_range_for);
+
+  RUN_DEMO(demo_vector_init);
   RUN_DEMO(demo_vector);
+
   RUN_DEMO(demo_iterator);
   RUN_DEMO(demo_array);
   RUN_DEMO(demo_char_array);
