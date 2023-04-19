@@ -33,5 +33,7 @@
 
 .vscode
 bin
+build
+vendor
 .sconsign.dblite
 
