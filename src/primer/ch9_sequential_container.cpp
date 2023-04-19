@@ -35,6 +35,7 @@ void demo_deque() {
 
   describe_sequential_container(q.begin(), q.end());
 }
+
 void demo_list() {
   std::list<std::string> sl = {"111", "222", "333"};
   describe_sequential_container(sl.begin(), sl.end());
