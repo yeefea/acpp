@@ -76,10 +76,10 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
 
 #define LOG(X) std::cout << OUTPUT_VAL(X) << std::endl;
 
-#define LOG_VEC(X)          \
-  do {                      \
-    std::cout << #X " = ";   \
-    describe_vector(X);     \
+#define LOG_VEC(X)         \
+  do {                     \
+    std::cout << #X " = "; \
+    describe_vector(X);    \
   } while (0)
 
 extern const int bufsize;

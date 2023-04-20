@@ -157,6 +157,8 @@ TODO
 
 - [https://github.com/AnthonyCalandra/modern-cpp-features](https://github.com/AnthonyCalandra/modern-cpp-features)
 
+- 把难读的指针类型声明翻译成英语[https://cdecl.org/](https://cdecl.org/)
+
 ## References
 
 - [https://cplusplus.com/reference/](https://cplusplus.com/reference/)
