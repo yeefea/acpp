@@ -66,10 +66,6 @@ https://github.com/abseil/abseil-cpp
 ### Asio
 http://think-async.com/Asio/Documentation.html
 
-
-### F-Stack
-https://github.com/F-Stack/f-stack
-
 ### JSON
 
 https://github.com/Tencent/rapidjson
@@ -101,6 +97,23 @@ libarmadillo-dev
 
 https://arma.sourceforge.net/
 
+## Low latency
+
+### Lock-free queue
+
+https://github.com/cameron314/concurrentqueue
+
+https://github.com/cameron314/readerwriterqueue
+
+
+### Kernel bypass
+
+- F-Stack https://github.com/F-Stack/f-stack
+
+### IPC
+
+- Iceoryx https://github.com/eclipse-iceoryx/iceoryx
+
 
 ## Graphics
 
@@ -123,10 +136,22 @@ C++ REPL
 ### Build Tools
 #### CMAKE
 
-教程
+- 教程
 
 https://www.cnblogs.com/satire/p/15257789.html
 
+- Cheatsheet
+
+https://github.com/mortennobel/CMake-Cheatsheet
+
+https://usercontent.one/wp/cheatsheet.czutro.ch/wp-content/uploads/2020/09/CMake_Cheatsheet.pdf
+
+- 奇技淫巧
+
+https://zhuanlan.zhihu.com/p/123419161
+
+
+https://zhuanlan.zhihu.com/p/121079042
 #### SCons
 
 #### Bazel

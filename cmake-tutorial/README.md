@@ -48,7 +48,7 @@ add_library(MathFunctions mysqrt.cxx)
 
 `main cmake`需要包括
 ```cmake
-add_subdirectory(MathFunctions)  # 添加目录
+add_subdirectory(MathFunctions)  # 添加目录，里面一定要有一个CMakeLists.txt
 
 target_link_libraries(Tutorial PUBLIC MathFunctions)  # 添加link库
 
