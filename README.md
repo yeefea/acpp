@@ -112,8 +112,13 @@ https://github.com/cameron314/readerwriterqueue
 
 ### IPC
 
+- ZeroMQ 
+
+- Fast DSS https://www.eprosima.com/index.php/resources-all/performance/zmq-vs-eprosima-fast-rtps
+
 - Iceoryx https://github.com/eclipse-iceoryx/iceoryx
 
+- cppipc https://github.com/mutouyun/cpp-ipc
 
 ## Graphics
 
