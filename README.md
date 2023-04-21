@@ -193,6 +193,13 @@ TODO
 
 - 把难读的指针类型声明翻译成英语[https://cdecl.org/](https://cdecl.org/)
 
+## 教程
+
+
+- 指针声明 http://unixwiz.net/techtips/reading-cdecl.html
+
+- 指针声明 https://faculty.cs.niu.edu/~mcmahon/CS241/Notes/reading_declarations.html
+
 ## References
 
 - [https://cplusplus.com/reference/](https://cplusplus.com/reference/)
@@ -204,3 +211,4 @@ TODO
 - [https://isocpp.org/std/the-standard](https://isocpp.org/std/the-standard)
 
 - [https://www.boost.org/doc/](https://www.boost.org/doc/)
+
