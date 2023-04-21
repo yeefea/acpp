@@ -79,7 +79,11 @@ sudo apt -y install libyaml-cpp-dev
 Oat++
 
 ### Google Test
-https://github.com/google/googletest
+
+- https://github.com/google/googletest
+
+- 项目示例，配合CMake使用 https://github.com/snikulov/google-test-examples
+
 
 ### Catch2
 https://github.com/catchorg/Catch2
@@ -119,6 +123,8 @@ https://github.com/cameron314/readerwriterqueue
 - Iceoryx https://github.com/eclipse-iceoryx/iceoryx
 
 - cppipc https://github.com/mutouyun/cpp-ipc
+
+- Boost interprocess https://stackoverflow.com/questions/22207546/shared-memory-ipc-synchronization-lock-free
 
 ## Graphics
 

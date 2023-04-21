@@ -24,6 +24,11 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 include(GoogleTest)
 
+
+# C++ primer
+add_subdirectory(${GLOBAL_SOURCE_DIR}/primer)
+
+
 file(GLOB_RECURSE TEST_SRC_FILES ${GLOBAL_TEST_DIR}/*.cpp)
 
 # from list of files we'll create tests test_name.cpp -> test_name

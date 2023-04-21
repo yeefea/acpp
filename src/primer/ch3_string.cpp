@@ -12,7 +12,7 @@ void demo_using() {
   using std::cout;
   using std::endl;
 
-  cout << "hello using" << endl;
+  cout << "hello using::std" << endl;
   // 头文件不要using
   // 不要using namespace
 }
@@ -29,15 +29,20 @@ void demo_initialize_string() {
   std::string s6("hiya");                  // 直接初始化
   std::string s7(10, 'c');                 // 直接初始化
   std::string s8 = std::string(10, 'c');  // 创建临时对象再拷贝给s8，多此一举
+  std::string s9(std::move(s8));  // 移动构造
 
   LOG(s1);
   LOG(s2);
-
-  std::cout << OUTPUT_VAL(s1) << " " << OUTPUT_VAL(s2) << " " << OUTPUT_VAL(s22)
-            << " " << OUTPUT_VAL(s222) << " " << OUTPUT_VAL(s3) << " "
-            << OUTPUT_VAL(s33) << " " << OUTPUT_VAL(s4) << " " << OUTPUT_VAL(s5)
-            << " " << OUTPUT_VAL(s6) << " " << OUTPUT_VAL(s7) << " "
-            << OUTPUT_VAL(s8) << std::endl;
+  LOG(s22);
+  LOG(s222);
+  LOG(s3);
+  LOG(s33);
+  LOG(s4);
+  LOG(s5);
+  LOG(s6);
+  LOG(s7);
+  LOG(s8);
+  LOG(s9);
 }
 
 void describe_string(std::string &s) {
@@ -248,8 +253,8 @@ void demo_cstr() {
   char *bg1 = std::begin(s1), *ed1 = std::end(s1);
   char s2[] = {'6', '7', '8', '9', '\0'};
   char *bg2 = std::begin(s2), *ed2 = std::end(s2);
-  std::cout << OUTPUT_VAL(strlen(s1)) << std::endl;
-  std::cout << OUTPUT_VAL(strlen(s2)) << std::endl;
+  LOG(strlen(s1));
+  LOG(strlen(s2));
 
   std::cout << OUTPUT_VAL(strcmp(s1, s2)) << std::endl;
   strcpy(s1, s2);
@@ -274,6 +279,13 @@ void demo_multi_dim_array() {
       c = cnt;
       ++cnt;
     }
+  }
+
+  for (auto p = ia; p != ia + row; ++p) {
+    for (auto q = *p; q != *p + 4; ++q) {
+      std::cout << *q << ' ';
+    }
+    std::cout << std::endl;
   }
 
   for (const auto r : ia) {

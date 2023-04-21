@@ -5,10 +5,10 @@ set(GLOBAL_VENDOR_DIR "../../../vendor")
 
 message(STATUS "C++ Primer version: ${PRIMER_VERSION}")
 
-project(primer LANGUAGES CXX VERSION ${PRIMER_VERSION})
+# project(primer LANGUAGES CXX VERSION ${PRIMER_VERSION})
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(ch3 ch3_string.cpp)
 add_executable(ch9 ch9_sequential_container.cpp)
