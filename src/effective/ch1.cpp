@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 #include "utils.h"
 
@@ -27,10 +28,19 @@ void demo_iostream() {
   LOG(rat);
 }
 
+void demo_new_delete() {
+  constexpr int SIZE = 10;
+  std::string* stringarray2 = new std::string[SIZE];
+
+  describe_array(stringarray2, stringarray2 + SIZE);
+  delete[] stringarray2;
+}
+
 int main(int argc, char** argv) {
   RUN_DEMO(demo_const);
   RUN_DEMO(demo_template);
   RUN_DEMO(demo_iostream);
+  RUN_DEMO(demo_new_delete);
 
   return EXIT_SUCCESS;
 }
