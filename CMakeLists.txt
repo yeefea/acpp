@@ -27,6 +27,7 @@ include(GoogleTest)
 
 # C++ primer
 add_subdirectory(${GLOBAL_SOURCE_DIR}/primer)
+add_subdirectory(${GLOBAL_SOURCE_DIR}/effective)
 
 
 file(GLOB_RECURSE TEST_SRC_FILES ${GLOBAL_TEST_DIR}/*.cpp)

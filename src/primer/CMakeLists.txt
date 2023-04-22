@@ -9,10 +9,10 @@ message(STATUS "C++ Primer version: ${PRIMER_VERSION}")
 
 # set(CMAKE_CXX_STANDARD 17)
 # set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-add_executable(ch3 ch3_string.cpp)
-add_executable(ch9 ch9_sequential_container.cpp)
-add_executable(ch19 ch19_special_tools.cpp)
+add_executable(primer_ch1 ch1.cpp)
+add_executable(primer_ch3 ch3_string.cpp)
+add_executable(primer_ch9 ch9_sequential_container.cpp)
+add_executable(primer_ch19 ch19_special_tools.cpp)
 
 # include(FetchContent)
 # FetchContent_Declare(
