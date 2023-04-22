@@ -78,32 +78,35 @@ void demo_string_operation() {
 }
 
 void demo_cctype() {
+  // char type
   std::string s = "abc 123,\n";
-  std::cout << s << std::endl;
+  LOG(s);
   for (auto c : s) {
-    std::cout << OUTPUT_VAL(c) << " " << OUTPUT_VAL(std::isalnum(c)) << " "
-              << OUTPUT_VAL(std::isalpha(c)) << " "
-              << OUTPUT_VAL(std::iscntrl(c)) << " "
-              << OUTPUT_VAL(std::isdigit(c)) << " "
-              << OUTPUT_VAL(std::isgraph(c)) << " "
-              << OUTPUT_VAL(std::islower(c)) << " "
-              << OUTPUT_VAL(std::isprint(c)) << " "
-              << OUTPUT_VAL(std::ispunct(c)) << " "
-              << OUTPUT_VAL(std::isspace(c)) << " "
-              << OUTPUT_VAL(std::isupper(c)) << " "
-              << OUTPUT_VAL(std::isxdigit(c)) << " "
-              << OUTPUT_VAL(char(std::tolower(c))) << " "
-              << OUTPUT_VAL(char(std::toupper(c))) << " " << std::endl;
+    LOG(c);
+    LOG(std::isalnum(c));
+    LOG(std::isalpha(c));
+    LOG(std::iscntrl(c));
+    LOG(std::isdigit(c));
+    LOG(std::isgraph(c));
+    LOG(std::islower(c));
+    LOG(std::isprint(c));
+    LOG(std::ispunct(c));
+    LOG(std::isspace(c));
+    LOG(std::isupper(c));
+    LOG(std::isxdigit(c));
+    LOG(char(std::tolower(c)));
+    LOG(char(std::toupper(c)));
+    std::cout << std::endl;
   }
 
   for (auto &c : s) {
     c = std::toupper(c);
   }
-
-  std::cout << s << std::endl;
+  LOG(s);
 }
 
 void demo_range_for() {
+  // 范围for语句
   std::string str("some string");
   for (auto &c : str) {
     c = std::toupper(c);
@@ -270,41 +273,46 @@ void demo_cstr() {
 }
 
 void demo_multi_dim_array() {
-  constexpr int row = 3, col = 4;
+  // 多维数组
+  constexpr int ROW = 3, COL = 4;
 
-  int ia[row][col] = {{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 9, 9}};
+  int ia[ROW][COL] = {{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11}};
   int cnt = 100;
+  // 范围for语句处理多维数组，除了最内层循环以外，都应该用reference
+  // 遍历方法1，写起来更容易
   for (auto &r : ia) {
+    describe_array(std::begin(r), std::end(r));
     for (auto &c : r) {
       c = cnt;
       ++cnt;
     }
   }
 
-  for (auto p = ia; p != ia + row; ++p) {
-    for (auto q = *p; q != *p + 4; ++q) {
+  // 遍历方法2
+  for (auto p = ia; p != ia + ROW; ++p) {
+    for (auto q = *p; q != *p + COL; ++q) {
       std::cout << *q << ' ';
     }
     std::cout << std::endl;
   }
 
   for (const auto r : ia) {
-    describe_array(r, r + col);
+    describe_array(r, r + COL);
   }
 
   int(*p)[4] = ia;
   p = &ia[2];
   std::cout << OUTPUT_VAL(ia) << " " << OUTPUT_VAL(p) << std::endl;
-  describe_array(*p, (*p) + col);
+  describe_array(*p, (*p) + COL);
   int arr[10][20][30] = {0};
 
   // 类型别名，简化数组定义
   typedef int int_arr[4];
-  using int_array = int[4];  // 和上一行等价
+  using int_array = int[4];  // 和上一行等价，而且更直观
   int_array ia2[3];
 
   for (const auto r : ia2) {
-    describe_array(r, r + col);
+    describe_array(r, r + COL);
   }
 }
 
