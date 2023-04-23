@@ -92,12 +92,16 @@ https://github.com/catchorg/Catch2
 
 https://github.com/p-ranav/argparse
 
-### Eigen
-
 
 ### Linear Algebra
 
-libarmadillo-dev
+#### Eigen
+
+#### Armadillo
+
+```bash
+sudo apt install -y libarmadillo-dev
+```
 
 https://arma.sourceforge.net/
 
@@ -138,7 +142,7 @@ OGRE
 
 ### CUDA
 
-## Tools
+## Meta tools
 
 ### Cling
 
@@ -163,10 +167,13 @@ https://zhuanlan.zhihu.com/p/123419161
 
 
 https://zhuanlan.zhihu.com/p/121079042
-#### SCons
 
 #### Bazel
 
+#### SCons
+
+
+### Project structure
 
 ### GDB
 
