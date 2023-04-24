@@ -324,6 +324,14 @@ void demo_iterator() {
   // reverse iter
   describe_sequential_container(q.crbegin(), q.crend());
 
+  std::string line = "abc,defg,xyz";
+  auto comma = std::find(line.cbegin(), line.cend(), ',');
+  std::cout << std::string(line.cbegin(), comma) << std::endl;
+
+  auto rcomma = std::find(line.crbegin(), line.crend(), ',');
+  // .base()把reverse iterator转为forward iterator
+  std::cout << std::string(rcomma.base(), line.cend()) << std::endl;
+
   // move -> ch13
 }
 
