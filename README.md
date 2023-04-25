@@ -92,6 +92,8 @@ https://github.com/catchorg/Catch2
 
 https://github.com/p-ranav/argparse
 
+### Logging
+https://github.com/PlatformLab/NanoLog
 
 ### Linear Algebra
 

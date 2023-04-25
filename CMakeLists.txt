@@ -10,28 +10,19 @@ set(GLOBAL_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 set(GLOBAL_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 set(GLOBAL_VENDOR_DIR ${PROJECT_SOURCE_DIR}/vendor)
 
-# GoogleTest
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-  SOURCE_DIR ${GLOBAL_VENDOR_DIR}/googletest
-  DOWNLOAD_EXTRACT_TIMESTAMP OFF
-)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-enable_testing()
-include(GoogleTest)
-
+file(GLOB THIRD_PARTY_LIST cmake/*.cmake)
+foreach(THIRD_PARTY_LIB ${THIRD_PARTY_LIST})
+  include (${THIRD_PARTY_LIB})
+endforeach()
 
 # C++ primer
 add_subdirectory(${GLOBAL_SOURCE_DIR}/primer)
 add_subdirectory(${GLOBAL_SOURCE_DIR}/effective)
 
+include(GoogleTest)
 
+enable_testing()
 file(GLOB_RECURSE TEST_SRC_FILES ${GLOBAL_TEST_DIR}/*.cpp)
-
 # from list of files we'll create tests test_name.cpp -> test_name
 foreach(_test_file ${TEST_SRC_FILES})
     message(STATUS ${_test_file})
