@@ -347,6 +347,23 @@ void demo_splice() {
   describe_sequential_container(lst2.begin(), lst2.end());  // lst2 is empty now
 }
 
+void demo_generic_algo() {
+  std::vector<int> ivec1 = {1, 2, 3, 4, 5};
+
+  decltype(ivec1) ivec2;
+  std::remove_copy_if(ivec1.begin(), ivec1.end(), std::back_inserter(ivec2),
+                      [](int i) { return i % 2 == 0; });
+  // lambda 表示不要的东西，copy到dest里去掉了不要的东西
+  describe_vector(ivec1);
+  describe_vector(ivec2);  // 1, 3, 5
+
+  // remove然后要erase删除尾部的元素
+  auto new_end = std::remove_if(ivec1.begin(), ivec1.end(),
+                                [](int i) { return i % 2 == 0; });
+  ivec1.erase(new_end, ivec1.end());
+  describe_vector(ivec1);
+}
+
 int main(int argc, char **argv) {
   RUN_DEMO(demo_algo);
   RUN_DEMO(demo_readonly_algo);
@@ -362,4 +379,5 @@ int main(int argc, char **argv) {
   RUN_DEMO(demo_bind);
   RUN_DEMO(demo_iterator);
   RUN_DEMO(demo_splice);
+  RUN_DEMO(demo_generic_algo);
 }
