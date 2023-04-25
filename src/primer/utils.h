@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <utility>
 #include <vector>
 
 template <typename T>
@@ -60,6 +61,21 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
   }
   os << "]";
   return os;
+}
+
+template <typename T1, typename T2>
+void describe_pair(const std::pair<T1, T2> &p) {
+  std::cout << p.first << " : " << p.second << std::endl;
+}
+
+template <typename It>
+void describe_maplike(It beg, It end) {
+  std::cout << '{' << std::endl;
+  for (; beg != end; ++beg) {
+    std::cout << "  ";
+    describe_pair(*beg);
+  }
+  std::cout << '}' << std::endl;
 }
 
 #define RUN_DEMO(X)                      \

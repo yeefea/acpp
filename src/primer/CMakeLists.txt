@@ -13,6 +13,7 @@ add_executable(primer_ch1 ch1.cpp)
 add_executable(primer_ch3 ch3_string.cpp)
 add_executable(primer_ch9 ch9_sequential_container.cpp)
 add_executable(primer_ch10 ch10_algorithm.cpp)
+add_executable(primer_ch11 ch11_associative_container.cpp)
 add_executable(primer_ch12 ch12_dynamic_memory.cpp utils.cpp str_blob.cpp str_blob_ptr.cpp text_query.cpp query_result.cpp)
 add_executable(primer_ch19 ch19_special_tools.cpp)
 
