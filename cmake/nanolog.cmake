@@ -22,8 +22,6 @@ ExternalProject_Add(nanolog
     BINARY_DIR          ${NANOLOG_ROOT}
     TMP_DIR             ${NANOLOG_TMP_DIR}
     STAMP_DIR           ${NANOLOG_STAMP_DIR}
-
-    DOWNLOAD_EXTRACT_TIMESTAMP OFF
     
     CONFIGURE_COMMAND   ${NANOLOG_CONFIGURE}
     BUILD_COMMAND       ${NANOLOG_BUILD}
