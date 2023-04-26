@@ -5,6 +5,8 @@ set(NANOLOG_MINOR_VER 91)
 
 set(NANOLOG_VER     ${NANOLOG_MAJOR_VER}.${NANOLOG_MINOR_VER})
 set(NANOLOG_ROOT    ${GLOBAL_VENDOR_DIR}/nanolog)
+set(NANOLOG_TMP_DIR    ${GLOBAL_VENDOR_DIR}/nanolog-tmp)
+set(NANOLOG_STAMP_DIR    ${GLOBAL_VENDOR_DIR}/nanolog-stamp)
 # set(NANOLOG_INC_DIR ${NANOLOG_ROOT}/src/nanolog-${NANOLOG_VER}/include)
 # set(NANOLOG_LIB_DIR ${NANOLOG_ROOT}/src/nanolog-${NANOLOG_VER}-build)
 
@@ -18,8 +20,9 @@ ExternalProject_Add(nanolog
     DOWNLOAD_DIR        ${NANOLOG_ROOT}
     SOURCE_DIR          ${NANOLOG_ROOT}
     BINARY_DIR          ${NANOLOG_ROOT}
-    TMP_DIR             ${NANOLOG_ROOT}-tmp
-    STAMP_DIR           ${NANOLOG_ROOT}-stamp
+    TMP_DIR             ${NANOLOG_TMP_DIR}
+    STAMP_DIR           ${NANOLOG_STAMP_DIR}
+
     DOWNLOAD_EXTRACT_TIMESTAMP OFF
     
     CONFIGURE_COMMAND   ${NANOLOG_CONFIGURE}
