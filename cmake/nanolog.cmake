@@ -7,12 +7,11 @@ set(NANOLOG_VER     ${NANOLOG_MAJOR_VER}.${NANOLOG_MINOR_VER})
 set(NANOLOG_ROOT    ${GLOBAL_VENDOR_DIR}/nanolog)
 set(NANOLOG_TMP_DIR    ${GLOBAL_VENDOR_DIR}/nanolog-tmp)
 set(NANOLOG_STAMP_DIR    ${GLOBAL_VENDOR_DIR}/nanolog-stamp)
-# set(NANOLOG_INC_DIR ${NANOLOG_ROOT}/src/nanolog-${NANOLOG_VER}/include)
-# set(NANOLOG_LIB_DIR ${NANOLOG_ROOT}/src/nanolog-${NANOLOG_VER}-build)
+
 
 set(NANOLOG_URL https://github.com/PlatformLab/NanoLog/archive/refs/tags/${NANOLOG_MAJOR_VER}.${NANOLOG_MINOR_VER}.zip)
 set(NANOLOG_CONFIGURE echo "config nanolog")
-set(NANOLOG_BUILD     cd runtime && ${MAKE_EXE} -j4)
+set(NANOLOG_BUILD     cd runtime && ${MAKE_EXE} -j4 && mkdir -p ${GLOBAL_INCLUDE_DIR}/nanolog ${GLOBAL_LIB_DIR} ${GLOBAL_TOOLS_DIR} && cp *.h ${GLOBAL_INCLUDE_DIR}/nanolog && cp *.a ${GLOBAL_LIB_DIR})
 set(NANOLOG_INSTALL   echo "install nanolog")
 find_program(MAKE_EXE NAMES make)
 ExternalProject_Add(nanolog
