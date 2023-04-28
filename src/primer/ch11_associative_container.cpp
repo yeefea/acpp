@@ -33,6 +33,37 @@ void demo_map()
       {"aaa", "bbb"}, {"ccc", "ddd"}, {"eee", "fff"}};
 
   describe_maplike(names.begin(), names.end());
+
+  // CRUD
+  // C/U
+  auto ret = word_count.insert({"123", 1});
+  std::cout << "inserted: " << ret.second << std::endl;
+  word_count.insert(std::make_pair("123", 1));
+  word_count.insert(std::pair<std::string, int>("123", 1));
+  word_count.insert(std::map<std::string, int>::value_type("123", 1));
+  auto it = word_count.insert(word_count.begin(), {"123", 1});
+  it = word_count.insert(it, {"124", 1});
+
+  // R
+  LOG(word_count["123"]);
+  if (word_count.find("125") == word_count.end())
+  {
+    std::cout << "word not found" << std::endl;
+  }
+  else
+  {
+    std::cout << "word found" << std::endl;
+  }
+
+  // D
+  if (word_count.erase("123"))
+  {
+    std::cout << "word removed" << std::endl;
+  }
+  else
+  {
+    std::cout << "word not found" << std::endl;
+  }
 }
 
 bool predicate_shorter(const std::string &a, const std::string &b)
