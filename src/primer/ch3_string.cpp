@@ -1,4 +1,5 @@
 #include <cctype>
+#include <cstring>
 #include <cstddef>  // size_t
 #include <iostream>
 #include <sstream>
@@ -259,7 +260,7 @@ void demo_cstr() {
   LOG(strlen(s1));
   LOG(strlen(s2));
 
-  std::cout << OUTPUT_VAL(strcmp(s1, s2)) << std::endl;
+  std::cout << OUTPUT_VAL(std::strcmp(s1, s2)) << std::endl;
   strcpy(s1, s2);
   std::cout << OUTPUT_VAL(s1) << std::endl;
 
