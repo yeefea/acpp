@@ -33,7 +33,11 @@
 
 .vscode
 bin
-build
-vendor
 .sconsign.dblite
 
+/tools
+/lib
+/build
+/vendor
+
+/include/nanolog
