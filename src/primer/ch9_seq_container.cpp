@@ -223,6 +223,7 @@ void demo_stack()
 void demo_queue()
 {
 
+  // 默认是大顶堆
   std::priority_queue<int> prio_q;
 
   prio_q.push(2);
@@ -237,6 +238,35 @@ void demo_queue()
   prio_q.pop();
   LOG(prio_q.top());
   prio_q.pop();
+
+  // greater函数，实现小顶堆
+  std::priority_queue<int, std::vector<int>, std::greater<int>> min_q;
+  min_q.push(2);
+  LOG(min_q.top()); // 2
+  min_q.push(3);
+  LOG(min_q.top()); // 2
+  min_q.push(1);
+  LOG(min_q.top()); // 1
+
+  // functor
+  struct
+  {
+    bool operator()(const std::string &s1, const std::string &s2) const { return s1.size() > s2.size(); }
+  } cmp_str;
+
+  std::priority_queue<std::string, std::vector<std::string>, decltype(cmp_str)> str_q(cmp_str);
+
+  str_q.push("22");
+  LOG(str_q.top());
+  str_q.push("1");
+  LOG(str_q.top());
+  str_q.push("333");
+  LOG(str_q.top());
+
+  auto fn = [](const std::string &s1, const std::string &s2) -> bool
+  { return s1.size() > s2.size(); };
+
+  std::priority_queue<std::string, std::vector<std::string>, decltype(fn)> str_q2(fn);
 }
 
 int main(int argc, char **argv)
