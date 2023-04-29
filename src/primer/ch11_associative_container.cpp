@@ -10,7 +10,6 @@
 #include <utility>
 #include <vector>
 #include <iterator>
-#include <CoreWLAN/CoreWLAN.h>
 #include "utils.h"
 
 void demo_map()
@@ -156,6 +155,76 @@ void demo_types()
   std::map<std::string, int>::value_type mv;  // pair
 }
 
+class Obj
+{
+public:
+  std::string field1;
+  size_t field2;
+};
+
+size_t hasher(const Obj &o)
+{
+  std::hash<std::string> hs;
+  return hs(o.field1) + o.field2;
+}
+
+bool eq_op(const Obj &lhs, const Obj &rhs)
+{
+  return lhs.field1 == rhs.field1 && lhs.field2 == rhs.field2;
+}
+
+void demo_unordered()
+{
+
+  std::unordered_map<std::string, size_t> word_count;
+  std::string word;
+
+  std::stringstream ss("hello chatgpt say some words hello");
+  while (ss >> word)
+  {
+    ++word_count[word];
+  }
+
+  describe_maplike(word_count.cbegin(), word_count.cend());
+
+  // bucket
+  LOG(word_count.bucket_count());
+  LOG(word_count.max_bucket_count());
+  LOG(word_count.bucket_size(0));
+  LOG(word_count.bucket("hello"));
+  LOG(word_count.bucket_size(word_count.bucket("hello")));
+
+  LOG(word_count.load_factor());
+  LOG(word_count.max_load_factor());
+
+  word_count.rehash(10000); // 重组哈希表，let bucket_count > size/max_load_factor
+  LOG(word_count.bucket_count());
+  LOG(word_count.max_bucket_count());
+  LOG(word_count.bucket_size(0));
+  LOG(word_count.bucket("hello"));
+  LOG(word_count.bucket_size(word_count.bucket("hello")));
+
+  word_count.reserve(20000); // 重组哈希表，并且保证存n个元素的时候不会rehash，等于是预分配内存
+  LOG(word_count.bucket_count());
+  LOG(word_count.max_bucket_count());
+  LOG(word_count.bucket_size(0));
+  LOG(word_count.bucket("hello"));
+  LOG(word_count.bucket_size(word_count.bucket("hello")));
+
+  /*
+  The difference is in purpose, although both are doing something similar.
+  rehash takes an existing map and rebuilds a new size of buckets, rehashing in the process and redistributing elements into the new buckets.
+  reserve guarantees you that if you don't insert more than the reserved number of elements, there will be no rehashing (i.e. your iterators will remain valid).
+  */
+
+  using obj_set = std::unordered_multiset<Obj, decltype(hasher) *, decltype(eq_op) *>;
+  obj_set st(123, hasher, eq_op);
+  st.insert({{"aaa", 1}, {"bbb", 2}});
+  std::for_each(st.begin(), st.end(), [](const obj_set::key_type &obj) -> void
+                { LOG(obj.field1);
+                LOG(obj.field2); });
+}
+
 int main(int argc, char **argv)
 {
   RUN_DEMO(demo_map);
@@ -163,5 +232,6 @@ int main(int argc, char **argv)
   RUN_DEMO(demo_multi);
   RUN_DEMO(demo_pair);
   RUN_DEMO(demo_types);
+  RUN_DEMO(demo_unordered);
   return EXIT_SUCCESS;
 }
