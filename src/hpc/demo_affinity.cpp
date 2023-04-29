@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include <sched.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +42,9 @@ int main(int argc, char *argv[])
       errExit("sched_setaffinity");
 
     for (int j = 0; j < nloops; j++)
+    {
       getppid();
+    }
 
     exit(EXIT_SUCCESS);
 
@@ -54,7 +55,9 @@ int main(int argc, char *argv[])
       errExit("sched_setaffinity");
 
     for (int j = 0; j < nloops; j++)
-      getppid();
+    {
+      auto pid = getppid();
+    }
 
     wait(NULL); /* Wait for child to terminate */
     exit(EXIT_SUCCESS);

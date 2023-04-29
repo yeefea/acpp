@@ -28,6 +28,7 @@ endforeach()
 add_subdirectory(${GLOBAL_SOURCE_DIR}/primer)
 add_subdirectory(${GLOBAL_SOURCE_DIR}/effective)
 add_subdirectory(${GLOBAL_SOURCE_DIR}/demo)
+add_subdirectory(${GLOBAL_SOURCE_DIR}/hpc)
 
 include(GoogleTest)
 
