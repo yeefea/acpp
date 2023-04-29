@@ -3,6 +3,8 @@ cmake_policy(SET CMP0097 NEW)
 
 project(acpp VERSION 1.0)
 
+cmake_host_system_information(RESULT OS_NAME QUERY OS_NAME)  # OS_NAME
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

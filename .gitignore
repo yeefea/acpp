@@ -37,7 +37,7 @@ bin
 
 /tools
 /lib
-/build
+build
 /vendor
 
 /include/nanolog

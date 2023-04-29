@@ -1,3 +1,5 @@
+if(${OS_NAME} EQUAL "Linux")
+
 include(ExternalProject)
 
 set(NANOLOG_ROOT    ${GLOBAL_VENDOR_DIR}/nanolog)
@@ -31,3 +33,4 @@ ExternalProject_Add(nanolog
     BUILD_COMMAND       ${NANOLOG_BUILD}
     INSTALL_COMMAND     ${NANOLOG_INSTALL} 
     )
+endif()
