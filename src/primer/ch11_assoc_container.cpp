@@ -12,6 +12,20 @@
 #include <iterator>
 #include "utils.h"
 
+/*
+8templates
+
+set
+map
+unordered_set
+unordered_map
+
+multiset
+multimap
+unordered_multiset
+unordered_multimap
+*/
+
 void demo_map()
 {
   std::map<std::string, size_t> word_count;
