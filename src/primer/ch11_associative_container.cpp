@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 #include <iterator>
-
+#include <CoreWLAN/CoreWLAN.h>
 #include "utils.h"
 
 void demo_map()
@@ -25,7 +25,7 @@ void demo_map()
     ++word_count[word];
   }
 
-  auto beg = word_count.begin();
+  std::map<std::string, size_t>::iterator beg = word_count.begin();
   describe_maplike(word_count.begin(), word_count.end());
 
   // init list of pairs
@@ -117,6 +117,16 @@ void demo_multi()
   describe_sequential_container(umiset.cbegin(), umiset.cend());
 
   auto x = umiset.find(1);
+
+  std::multiset<std::string> c;
+
+  std::vector<std::string> svec;
+
+  std::copy(svec.begin(), svec.end(), std::inserter(c, c.end()));
+  // error set不能用back_inserter，因为没有push_back函数
+  // std::copy(svec.begin(), svec.end(), std::back_inserter(c));
+  std::copy(c.begin(), c.end(), std::inserter(svec, svec.end()));
+  std::copy(c.begin(), c.end(), std::back_inserter(svec));
 }
 
 std::pair<std::string, int> some_function_return_pair()

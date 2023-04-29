@@ -134,7 +134,9 @@ https://github.com/cameron314/readerwriterqueue
 
 ## Graphics
 
-OGRE
+### Dear ImGUI
+
+### OGRE
 
 ## Parallel Computing
 
@@ -208,12 +210,20 @@ TODO
 
 - 把难读的指针类型声明翻译成英语[https://cdecl.org/](https://cdecl.org/)
 
-## 教程
-
+## Tutorials
 
 - 指针声明 http://unixwiz.net/techtips/reading-cdecl.html
 
 - 指针声明 https://faculty.cs.niu.edu/~mcmahon/CS241/Notes/reading_declarations.html
+
+- Cherno's C++ Tutorial
+
+## Books
+
+- C++ Primer
+- Effective C++
+- More Effective C++
+- Effective Modern C++
 
 ## References
 
