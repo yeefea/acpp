@@ -1,4 +1,6 @@
-if(${OS_NAME} EQUAL "Linux")
+if(${OS_NAME} STREQUAL "Linux")
+
+message(STATUS "Linux, build NanoLog")
 
 include(ExternalProject)
 
