@@ -162,6 +162,9 @@ public:
   size_t field2;
 };
 
+// unordered_map/set支持自定义类型的2个方法
+// 1. 实现2个函数，hasher eq_op，传给构造函数
+// 2. std::hash模板特例化
 size_t hasher(const Obj &o)
 {
   std::hash<std::string> hs;
