@@ -3,30 +3,69 @@
 #include <vector>
 
 template <typename T>
-void describe_vector(const std::vector<T> &vec) {
+void describe_vector(const std::vector<T> &vec)
+{
   std::cout << "[";
   auto iter = vec.begin();
-  if (iter != vec.end()) {
+  if (iter != vec.end())
+  {
     std::cout << *iter;
     ++iter;
   }
-  for (; iter != vec.end(); ++iter) {
+  for (; iter != vec.end(); ++iter)
+  {
     std::cout << ", " << *iter;
   }
   std::cout << "] size: " << vec.size() << std::endl;
 }
 
 template <typename It>
-void describe_sequential_container(It beg, It end) {
+void describe_container(It beg, It end)
+{
   std::cout << "[";
   size_t size = 0;
   auto iter = beg;
-  if (iter != end) {
+  if (iter != end)
+  {
     std::cout << *iter;
     ++iter;
     ++size;
   }
-  for (; iter != end; ++iter) {
+  for (; iter != end; ++iter)
+  {
+    std::cout << ", " << *iter;
+    ++size;
+  }
+  std::cout << "] size: " << size << std::endl;
+}
+
+template <typename It>
+void describe_maplike(It beg, It end)
+{
+  std::cout << '{' << std::endl;
+  for (; beg != end; ++beg)
+  {
+    std::cout << "  ";
+    describe_pair(*beg);
+  }
+  std::cout << '}' << std::endl;
+}
+
+// deprecated use describe_container
+template <typename It>
+void describe_sequential_container(It beg, It end)
+{
+  std::cout << "[";
+  size_t size = 0;
+  auto iter = beg;
+  if (iter != end)
+  {
+    std::cout << *iter;
+    ++iter;
+    ++size;
+  }
+  for (; iter != end; ++iter)
+  {
     std::cout << ", " << *iter;
     ++size;
   }
@@ -34,28 +73,34 @@ void describe_sequential_container(It beg, It end) {
 }
 
 template <typename T>
-void describe_array(const T *begin, const T *end) {
+void describe_array(const T *begin, const T *end)
+{
   std::cout << "[";
   auto iter = begin;
-  if (iter != end) {
+  if (iter != end)
+  {
     std::cout << *iter;
     ++iter;
   }
-  for (; iter != end; ++iter) {
+  for (; iter != end; ++iter)
+  {
     std::cout << ", " << *iter;
   }
   std::cout << "] size: " << (end - begin) << std::endl;
 }
 
 template <typename T>
-std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
+std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end)
+{
   os << "[";
   auto iter = begin;
-  if (iter != end) {
+  if (iter != end)
+  {
     os << *iter;
     ++iter;
   }
-  for (; iter != end; ++iter) {
+  for (; iter != end; ++iter)
+  {
     os << ", " << *iter;
   }
   os << "]";
@@ -63,7 +108,8 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
 }
 
 #define RUN_DEMO(X)                      \
-  do {                                   \
+  do                                     \
+  {                                      \
     std::cout << ">>> " #X << std::endl; \
     X();                                 \
     std::cout << "\n\n";                 \
@@ -77,7 +123,8 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
 #define LOG(X) std::cout << OUTPUT_VAL(X) << std::endl;
 
 #define LOG_VEC(X)         \
-  do {                     \
+  do                       \
+  {                        \
     std::cout << #X " = "; \
     describe_vector(X);    \
   } while (0)
@@ -85,5 +132,7 @@ std::ostream &serialize_arr(std::ostream &os, const T *begin, const T *end) {
 extern const int bufsize;
 extern const double pi;
 
-#define YEEFEA_NS_OPEN namespace yeefea {
-#define YEEFEA_NS_CLOSE }  // namespace yeefea
+#define YEEFEA_NS_OPEN \
+  namespace yeefea     \
+  {
+#define YEEFEA_NS_CLOSE } // namespace yeefea
