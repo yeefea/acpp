@@ -1,22 +1,22 @@
 # High Performance Computing
 
-## 绑核 `taskset`
+## 绑核: `taskset` 命令
 
-## 绑核 `sched_setaffinity`
+## 绑核: `sched_setaffinity`系统调用
 
 ```bash
-time -p ./src/hpc/demo_affinity 0 0 100000000  # same core, same thread
-# real 14.62
-# user 7.38
-# sys 7.24
-time -p ./src/hpc/demo_affinity 0 1 100000000  # same core, different threads
-# real 7.28
-# user 7.18
-# sys 7.35
-time -p ./src/hpc/demo_affinity 0 2 100000000  # different cores
-# real 7.38
-# user 7.22
-# sys 7.47
+time -p ./src/hpc/demo_affinity 0 0 1000000000  # same core, same thread
+# real 5.07
+# user 5.07
+# sys 0.00
+time -p ./src/hpc/demo_affinity 0 1 1000000000  # same core, different threads
+# real 2.53
+# user 5.04
+# sys 0.00
+time -p ./src/hpc/demo_affinity 0 2 1000000000  # different cores
+# real 2.53
+# user 5.05
+# sys 0.00
 ```
 
 ## Isolate CPU

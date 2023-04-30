@@ -1,4 +1,11 @@
 include_directories(${GLOBAL_INCLUDE_DIR})
-add_executable(eff_ch1 ch1.cpp utils.cpp)
-add_executable(eff_ch2 ch2.cpp utils.cpp)
+
+file(GLOB EFF_FILES ch*.cpp)
+
+foreach(_eff_file ${EFF_FILES})
+  get_filename_component(_file_prefix ${_eff_file} NAME_WE)
+  set(_exe_name "eff_${_file_prefix}")
+  add_executable(${_exe_name} ${_eff_file} utils.cpp)
+endforeach()
+
 
