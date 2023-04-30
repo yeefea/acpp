@@ -95,6 +95,13 @@ https://github.com/p-ranav/argparse
 ### Logging
 https://github.com/PlatformLab/NanoLog
 
+### Cryptography
+
+https://github.com/openssl/openssl
+
+- libssl
+- libcrypto
+
 ### Linear Algebra
 
 #### Eigen
