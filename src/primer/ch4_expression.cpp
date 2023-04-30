@@ -221,7 +221,14 @@ void demo_type_conversion()
   // 旧的强制转换
   // type(expr)
   // (type)expr C语言风格
-  char *pc2 = (char *)ip;  // 等价于reinterpret_cast
+  char *pc2 = (char *)ip; // 等价于reinterpret_cast
+}
+
+void demo_op_precedence()
+{
+  int i = 0;
+  ++ ++i; // R->L
+  LOG(i);
 }
 int main(int argc, char **argv)
 {
@@ -235,5 +242,6 @@ int main(int argc, char **argv)
   RUN_DEMO(demo_sizeof_op);
   RUN_DEMO(demo_comma_op);
   RUN_DEMO(demo_type_conversion);
+  RUN_DEMO(demo_op_precedence);
   return EXIT_SUCCESS;
 }

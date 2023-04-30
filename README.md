@@ -233,6 +233,8 @@ TODO
 
 - [https://en.cppreference.com/w/](https://en.cppreference.com/w/)
 
+- [MSDN](https://learn.microsoft.com/en-us/cpp/cpp/cpp-language-reference?view=msvc-170)
+
 - [https://isocpp.org/std/the-standard](https://isocpp.org/std/the-standard)
 
 - [https://www.boost.org/doc/](https://www.boost.org/doc/)

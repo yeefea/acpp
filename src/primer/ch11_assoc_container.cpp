@@ -37,6 +37,16 @@ void demo_map()
   {
     ++word_count[word];
   }
+  
+  std::cout << "{" << std::endl;
+  
+  // c++ 17 syntax
+  for (auto &[k, v] : word_count)
+  {
+    std::cout << "  " << k << ": " << v << std::endl;
+  }
+
+  std::cout << "}" << std::endl;
 
   std::map<std::string, size_t>::iterator beg = word_count.begin();
   describe_maplike(word_count.begin(), word_count.end());
