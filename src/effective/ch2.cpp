@@ -61,6 +61,117 @@ void *X::operator new[](size_t size)
   return memory;
 }
 
+void *Base::operator new(size_t size)
+{
+  if (size != sizeof(Base))
+  {
+    // Base的子类会走到这里
+    return ::operator new(size);
+  }
+
+  // Base会走到这里
+
+  std::cout << "allocate Base" << std::endl;
+  return ::operator new(size);
+}
+
+void Base::operator delete(void *raw, size_t size)
+{
+  if (size == 0)
+  {
+    return;
+  }
+  if (size != sizeof(Base))
+  {
+    ::operator delete(raw);
+    return;
+  }
+  std::cout << "release Base" << std::endl;
+  ::operator delete(raw);
+}
+
+void *ObjWithOverloadedNew::operator new(size_t size, std::new_handler p)
+{
+  if (p == nullptr)
+  {
+    return ::operator new(size);
+  }
+  if (size == 0)
+  {
+    size = 1;
+  }
+
+  auto old_hdl = std::set_new_handler(p);
+  void *raw;
+  try
+  {
+    raw = ::operator new(size);
+  }
+  catch (std::bad_alloc &)
+  {
+    std::set_new_handler(old_hdl);
+    throw;
+  }
+  std::cout << "new obj with oom handler" << std::endl;
+  std::set_new_handler(old_hdl);
+  return raw;
+}
+
+const int Airplane::block_size = 4;           // 一块内存容纳的Airplane对象数量
+Airplane *Airplane::head_free_list = nullptr; // 空闲链表头
+
+void *Airplane::operator new(size_t size)
+{
+  if (size != sizeof(Airplane))
+  {
+    // 子类new
+    return ::operator new(size);
+  }
+
+  Airplane *p = head_free_list;
+  if (p) // likely
+  {
+    head_free_list = p->next;
+  }
+  else
+  {
+    // 第一次new，分配一块内存
+    std::cout << "Airplane: new memory block of " << block_size << " objects" << std::endl;
+    Airplane *new_blk = static_cast<Airplane *>(::operator new(block_size * sizeof(Airplane)));
+
+    // 做成单向链表
+    for (int i = 0; i < block_size; ++i)
+    {
+      new_blk[i].next = &new_blk[i + 1];
+    }
+    // sentinal节点next=0
+    new_blk[block_size - 1].next = nullptr;
+    // 拿走链表的第一个节点，返回该对象
+    p = new_blk;
+    head_free_list = &new_blk[1];
+  }
+  std::cout << "Airplane: take memory from block" << std::endl;
+  return p;
+}
+
+void Airplane::operator delete(void *raw, size_t size)
+{
+
+  if (raw == nullptr)
+  {
+    return;
+  }
+  if (size != sizeof(Airplane))
+  {
+    ::operator delete(raw);
+    return;
+  }
+  std::cout << "Airplane: return memory to free list" << std::endl;
+  Airplane *carcass = static_cast<Airplane *>(raw);
+  // 归还的内存放到链表头部
+  carcass->next = head_free_list;
+  head_free_list = carcass;
+}
 void demo_new_delete()
 {
   constexpr int sz = 100;
@@ -103,10 +214,53 @@ void demo_new_handler()
   delete[] py;
 }
 
-int main()
+void demo_derived_class()
+{
+  std::cout << "Base:" << std::endl;
+  Base *pb = new Base;
+  delete pb;
+
+  std::cout << "Derived: no output" << std::endl;
+  Derived *pd = new Derived;
+  delete pd;
+
+  std::cout << "EasyDerived:" << std::endl;
+  EasyDerived *pe = new EasyDerived;
+  delete pe;
+
+  ObjWithOverloadedNew *obj = new (
+      []() -> void
+      {
+        std::cout << "ooooom!" << std::endl;
+      }) ObjWithOverloadedNew;
+  delete obj;
+
+  obj = new ObjWithOverloadedNew;
+  delete obj;
+}
+
+void demo_memory_pool()
+{
+
+  Airplane *p1 = new Airplane;
+  Airplane *p2 = new Airplane;
+  Airplane *p3 = new Airplane;
+  Airplane *p4 = new Airplane;
+  Airplane *p5 = new Airplane;
+
+  delete p1;
+  delete p2;
+  delete p3;
+  delete p4;
+  delete p5;
+}
+
+int main(int argc, char **argv)
 {
   RUN_DEMO(demo_new_delete);
+  RUN_DEMO(demo_derived_class);
+  RUN_DEMO(demo_memory_pool);
+  // 这个放最后执行，因为要演示panic
   RUN_DEMO(demo_new_handler);
-
-  // global_oom_handler();
+  return EXIT_SUCCESS;
 }

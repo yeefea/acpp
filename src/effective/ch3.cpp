@@ -33,6 +33,7 @@ Str &Str::operator=(const Str &rhs)
   data = new char[strlen(rhs.data) + 1];
   strcpy(data, rhs.data);
   data[strlen(rhs.data)] = '\0';
+  return *this;
 }
 
 inline Str::~Str()

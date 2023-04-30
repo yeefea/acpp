@@ -97,11 +97,53 @@ public:
   int field1;
 };
 
-// global new operator
-// void *operator new(size_t size){
-//   if (size == 0){
-//     size = 1;
-//   }
-//   // todo
-// }
+class Base
+{
 
+public:
+  static void *operator new(size_t size);
+  static void operator delete(void *raw, size_t size);
+};
+
+class Derived : public Base
+{
+public:
+  // 如果没有这个成员，则sizeof(Derived)==sizeof(Base)，Base::operator new/delete依然会打印allocate和release文字
+  int m_i;
+};
+
+class EasyDerived : public Base
+{
+  // 依然能打印Base的allocate/release消息
+};
+
+class ObjWithOverloadedNew
+{
+
+public:
+  void f() {} // some member func
+  // custom new op
+  static void *operator new(size_t size, std::new_handler p);
+  static void *operator new(size_t size)
+  {
+    std::cout << "new obj with no parameter" << std::endl;
+    return ::operator new(size);
+  }
+};
+
+class Airplane
+{
+public:
+  static void *operator new(size_t size);
+  static void operator delete(void* raw, size_t size);
+
+private:
+  union
+  {
+    Airplane *rep;
+    Airplane *next;
+  };
+  static const int block_size;
+  // 内存池
+  static Airplane *head_free_list;
+};
