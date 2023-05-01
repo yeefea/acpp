@@ -229,7 +229,37 @@ void demo_op_precedence()
   int i = 0;
   ++ ++i; // R->L
   LOG(i);
+
+  int count = 0;
+  int *pc = &count;
+
+  // ++ * 相同优先级3 R->L
+  ++*pc, ++*pc, ++*pc;
+  LOG(count);
+
+  int b, c;
+  i = 10, b = 20, c = 30;
+  i = b, c;
+  printf("%i\n", i);
+
+  i = (b, c);
+  printf("%i\n", i);
+
+  int res;
+  i = 10;
+  res = i + + + +i;
+  LOG(res);
+
+  i = 10;
+  res = i++ + +i;
+  LOG(res);
+
+  i = 0;
+  // ++i++; 这是不行的，后缀++优先级更高
+  (++i)++;
+  LOG(i);
 }
+
 int main(int argc, char **argv)
 {
   RUN_DEMO(demo_arithmetic_op);
