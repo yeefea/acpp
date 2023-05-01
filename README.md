@@ -19,6 +19,9 @@ include path
 
 ```
 
+## Libevent
+
+
 ## Database
 
 ### MySQL
@@ -66,15 +69,27 @@ https://github.com/abseil/abseil-cpp
 ### Asio
 http://think-async.com/Asio/Documentation.html
 
-### JSON
+
+### Serialization
+#### JSON
 
 https://github.com/Tencent/rapidjson
 
-### YAML
+#### YAML
 
 ```bash
 sudo apt -y install libyaml-cpp-dev
 ```
+
+#### Protobuf
+
+https://protobuf.dev/getting-started/cpptutorial/
+
+#### Cap'n Proto
+
+https://github.com/capnproto/capnproto
+
+
 ### Web Framework
 Oat++
 

@@ -258,6 +258,13 @@ void demo_op_precedence()
   // ++i++; 这是不行的，后缀++优先级更高
   (++i)++;
   LOG(i);
+
+  // i++++;
+  ++ ++i;
+
+  int play = 1 == 2 ? 1 : 1 == 1 ? 2
+                                 : 3;
+  LOG(play);
 }
 
 int main(int argc, char **argv)
