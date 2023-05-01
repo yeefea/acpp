@@ -1,6 +1,7 @@
 #include "demo_boost_asio.h"
 #include <iostream>
 #include <cstdlib>
+#include <thread>
 #include <boost/thread/thread.hpp>
 #include <boost/asio.hpp>      // asio库，需要link libboost_system
 #include <boost/bind/bind.hpp> // bind库
@@ -87,20 +88,29 @@ void MultiThreadedPrinter::print1()
 {
   if (count < 10)
   {
-    std::cout << "Timer 1: " << count << std::endl;
+    std::cout << std::this_thread::get_id() << " Timer 1: " << count << std::endl;
     ++count;
     t1.expires_at(t1.expiry() + boost::asio::chrono::seconds(1));
-    t1.async_wait(boost::bind(&MultiThreadedPrinter::print1, this));
+    t1.async_wait(b_asio::bind_executor(
+        strand,
+        boost::bind(
+            &MultiThreadedPrinter::print1,
+            this)));
   }
 }
+
 void MultiThreadedPrinter::print2()
 {
   if (count < 10)
   {
-    std::cout << "Timer 2: " << count << std::endl;
+    std::cout << std::this_thread::get_id() << " Timer 2: " << count << std::endl;
     ++count;
     t2.expires_at(t2.expiry() + boost::asio::chrono::seconds(1));
-    t2.async_wait(boost::bind(&MultiThreadedPrinter::print2, this));
+    t2.async_wait(b_asio::bind_executor(
+        strand,
+        boost::bind(
+            &MultiThreadedPrinter::print2,
+            this)));
   }
 }
 
@@ -110,20 +120,20 @@ void demo_multi_threading()
   MultiThreadedPrinter p(io);
   // 子线程run
   boost::thread t(boost::bind(&b_asio::io_context::run, &io));
-  
+
   // 主线程run
   io.run();
-  
+
   // join子线程
-  t.join();
+  // t.join();
 }
 
 int main()
 {
-  RUN_DEMO(demo_sync_wait);
-  RUN_DEMO(demo_async_wait);
-  RUN_DEMO(demo_bind);
-  RUN_DEMO(demo_member_function);
+  // RUN_DEMO(demo_sync_wait);
+  // RUN_DEMO(demo_async_wait);
+  // RUN_DEMO(demo_bind);
+  // RUN_DEMO(demo_member_function);
   RUN_DEMO(demo_multi_threading);
   return EXIT_SUCCESS;
 }
