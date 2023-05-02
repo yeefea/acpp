@@ -8,6 +8,8 @@
 
 #include "utils.h"
 
+namespace asio_ip = boost::asio::ip;
+
 void demo_sync_wait()
 {
   boost::asio::io_context io;
@@ -125,7 +127,21 @@ void demo_multi_threading()
   io.run();
 
   // join子线程
-  // t.join();
+  t.join();
+}
+
+void demo_tcp()
+{
+  boost::asio::io_context ctx;
+  asio_ip::tcp::resolver resolver(ctx);
+  asio_ip::tcp::resolver::query query("fapi.binance.com", "https");
+  asio_ip::tcp::resolver::iterator iter = resolver.resolve(query);
+  asio_ip::tcp::resolver::iterator end; // End marker.
+  while (iter != end)
+  {
+    asio_ip::tcp::endpoint endpoint = *iter++;
+    std::cout << endpoint << std::endl;
+  }
 }
 
 int main()
@@ -134,6 +150,7 @@ int main()
   // RUN_DEMO(demo_async_wait);
   // RUN_DEMO(demo_bind);
   // RUN_DEMO(demo_member_function);
-  RUN_DEMO(demo_multi_threading);
+  // RUN_DEMO(demo_multi_threading);
+  RUN_DEMO(demo_tcp);
   return EXIT_SUCCESS;
 }
