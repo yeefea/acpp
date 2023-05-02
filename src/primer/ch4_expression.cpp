@@ -255,7 +255,7 @@ void demo_op_precedence()
   LOG(res);
 
   i = 0;
-  // ++i++; 这是不行的，后缀++优先级更高
+  // ++i++; // 这是不行的，后缀++优先级更高
   (++i)++;
   LOG(i);
 
@@ -265,6 +265,26 @@ void demo_op_precedence()
   int play = 1 == 2 ? 1 : 1 == 1 ? 2
                                  : 3;
   LOG(play);
+
+  LOG(i);
+  float f = (float)++i + i; // 10
+  LOG(f);
+
+  // level 3
+  i = 1;
+  res = 1 + + + +i;
+  LOG(res);
+  res = 1 - - - - -i;
+  LOG(res);
+  res = *&*&*&*&*&i;
+  LOG(res);
+
+  delete new int;
+  bool ok = true;
+  LOG(!!!!!!!!ok);
+  LOG(sizeof sizeof 1);
+
+  std::cout << (1 & 2) << std::endl;
 }
 
 int main(int argc, char **argv)
