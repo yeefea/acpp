@@ -11,6 +11,14 @@ target_link_libraries(demo_ws
   boost_system
 )
 
+add_executable(demo_wss demo_wss.cpp)
+
+target_link_libraries(demo_wss
+  crypto
+  ssl
+  boost_system
+)
+
 add_executable(demo_boost_asio demo_boost_asio.cpp)
 target_link_libraries(demo_boost_asio
   boost_system
@@ -24,5 +32,10 @@ target_link_libraries(sync_daytime_client
 )
 add_executable(sync_daytime_server sync_daytime_server.cpp)
 target_link_libraries(sync_daytime_server
+  boost_system
+)
+
+add_executable(async_daytime_server async_daytime_server.cpp)
+target_link_libraries(async_daytime_server
   boost_system
 )

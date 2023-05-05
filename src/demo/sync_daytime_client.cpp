@@ -16,12 +16,24 @@ int main(int argc, char *argv[])
 
     boost::asio::io_context io_context;
 
+    // domain resolve
     tcp::resolver resolver(io_context);
     tcp::resolver::results_type endpoints =
-        resolver.resolve(argv[1], "daytime");
-
+        resolver.resolve(argv[1], "50013");
+    for (auto &x : endpoints)
+    {
+      std::cout << x.endpoint() << std::endl;
+    }
+    // create tcp socket
     tcp::socket socket(io_context);
-    boost::asio::connect(socket, endpoints);
+    // connect to endpoints, may throw
+    boost::system::error_code error;
+    auto endpoint = boost::asio::connect(socket, endpoints, error);
+    if (error.failed())
+    {
+      std::cerr << error.message() << std::endl;
+      return EXIT_FAILURE;
+    }
 
     for (;;)
     {

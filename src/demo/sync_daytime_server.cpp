@@ -18,17 +18,21 @@ int main()
   {
     boost::asio::io_context io_context;
 
-    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 13));
+    tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 50013));
 
     for (;;)
     {
       tcp::socket socket(io_context);
+      // accept client connection
       acceptor.accept(socket);
 
       std::string message = make_daytime_string();
       std::cout << message << std::endl;
       boost::system::error_code ignored_error;
+
+      // write response
       boost::asio::write(socket, boost::asio::buffer(message), ignored_error);
+      socket.close();
     }
   }
   catch (std::exception &e)

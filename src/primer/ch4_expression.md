@@ -1,9 +1,8 @@
 ## 运算符优先级
 
 - 一共16级，58个运算符，c++20还有第59个<=>运算符
+
 - 只有level 3和15是右到左结合，其余都是左到右
-- level 3 典型运算符：前置++ --，正负号 + -，逻辑非！，取地址&，解引用*，new delete，cast ()
-- level 15 典型运算符：赋值运算符 + 三元condition + throw
 
 - level 1 最高优先级 ::
 
@@ -15,7 +14,7 @@
 函数调用  ()
 下标      []
 4种cast static_cast, const_cast, reinterpret_cast, dynamic_cast
-typeid
+**typeid**
 
 
 ```c++
@@ -28,7 +27,7 @@ a->b->c->d;
 a[0][1][2][3][4]
 ```
 
-- level 3 右到左结合，12种。4对：前缀++-- 正负号 取地址&/解引用* new/delete，4个零散的：逻辑非! sizeof 类型转换() 反码~
+- level 3 右到左结合，12种。4对：前缀++-- 正负号 取地址&/解引用* new/delete，4个零散的：逻辑非! 反码~ 类型转换() **sizeof**
 
 ```c++
 // 左边能写一长串的都是右到左结合

@@ -170,6 +170,10 @@ https://github.com/cameron314/readerwriterqueue
 
 ## Meta tools
 
+### G++
+
+cheat sheet: https://bytes.usc.edu/cs104/wiki/gcc/
+
 ### Cling
 
 C++ REPL
@@ -238,7 +242,7 @@ TODO
 
 - 指针声明 https://faculty.cs.niu.edu/~mcmahon/CS241/Notes/reading_declarations.html
 
-- Cherno's C++ Tutorial
+- Cherno's C++ Tutorial https://www.bilibili.com/video/BV1VJ411M7WR/?spm_id_from=333.337.search-card.all.click&vd_source=ac5b43cd098d981ddf36ad289c0ad346
 
 ## Books
 
