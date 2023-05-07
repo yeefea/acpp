@@ -170,6 +170,8 @@ https://github.com/cameron314/readerwriterqueue
 
 ## Meta tools
 
+编译过程：预处理(cpp) -> 编译(gcc/g++) -> 汇编(as) -> 链接(ld) -> 可执行文件
+
 ### G++
 
 cheat sheet: https://bytes.usc.edu/cs104/wiki/gcc/

@@ -39,3 +39,5 @@ add_executable(async_daytime_server async_daytime_server.cpp)
 target_link_libraries(async_daytime_server
   boost_system
 )
+
+add_executable(demo_raii demo_raii.cpp)
