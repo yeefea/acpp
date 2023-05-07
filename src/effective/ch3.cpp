@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <limits>
 #include "utils.h"
 
 Str::Str(const char *value)
@@ -66,10 +67,46 @@ void demo_abstract_base()
   DerivedAwov d; // ok
 }
 
+void demo_limits()
+{
+  describe_limits<bool>();
+  describe_limits<char>();
+  describe_limits<signed char>();
+  describe_limits<unsigned char>();
+  describe_limits<short>();
+  describe_limits<short int>();
+  describe_limits<signed short>();
+  describe_limits<signed short int>();
+  describe_limits<unsigned short>();
+  describe_limits<unsigned short int>();
+  describe_limits<int>();
+  describe_limits<signed>();
+  describe_limits<signed int>();
+  describe_limits<unsigned>();
+  describe_limits<unsigned int>();
+  describe_limits<long>();
+  describe_limits<long int>();
+  describe_limits<signed long>();
+  describe_limits<signed long int>();
+  describe_limits<unsigned long>();
+  describe_limits<unsigned long int>();
+  describe_limits<long long>();
+  describe_limits<long long int>();
+  describe_limits<signed long long>();
+  describe_limits<signed long long int>();
+  describe_limits<unsigned long long>();
+  describe_limits<unsigned long long int>();
+  describe_limits<size_t>();
+  describe_limits<float>();
+  describe_limits<double>();
+  describe_limits<long double>();
+}
+
 int main()
 {
   RUN_DEMO(demo_dynamic_memory);
   RUN_DEMO(demo_initialization_order);
+  RUN_DEMO(demo_limits);
 
   return EXIT_SUCCESS;
 }
