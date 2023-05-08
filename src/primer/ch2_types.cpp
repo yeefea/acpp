@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
 #include "utils.h"
 #define DESC_TYPE(T) std::cout << "size of " #T " is " << sizeof(T) << " bytes." << std::endl
 
@@ -236,6 +237,11 @@ constexpr int i = 42;
 
 void demo_constexpr()
 {
+  /*
+  常量表达式:不会改变且在编译过程就能计算结果的表达式，有两种情况
+  1. 字面值（算术类型，引用，指针，字面值常量类，枚举）
+  2. 用常量表达式初始化的const对象
+  */
   {
     // 逻辑上的常量表达式难以分辨
     const int max_files = 20;             // yes  <=> constexpr
@@ -246,13 +252,14 @@ void demo_constexpr()
   constexpr int mf = 20;
   constexpr int limit = mf + 1;
   constexpr int sz = size();
-  // constexpr指针都是顶层const，初始化后不能修改！！！和const int *ptr不一样！！！
+  // constexpr指针都是顶层const！！！初始化后不能修改！！！和const int *ptr不一样！！！
   constexpr int *top_const = &j; // 函数体内的变量地址只能在运行时确定，constexpr指针的地址必须在编译期确定，只能用全局变量的地址。
   *top_const = 13;               // 这样是可以的，给j赋值
   // top_const = nullptr;  // error
   constexpr int *must_null = nullptr; // 否则只能用nullptr初始化
-  constexpr const int *cpi = &i;      // 指向常量i
-  constexpr int *cpj = &j;            // 指向变量j
+  // 底层const需要这样写，constexpr const <typename> *<pointername>  = &xxx;
+  constexpr const int *cpi = &i; // 指向常量i
+  constexpr int *cpj = &j;       // 指向变量j
   std::cout << OUTPUT_VAL(mf) << " "
             << OUTPUT_VAL(limit) << " "
             << OUTPUT_VAL(sz) << " "
