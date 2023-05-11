@@ -98,7 +98,7 @@ void describe_maplike(It beg, It end) {
     describe_vector(X);    \
   } while (0)
 
-extern const int bufsize;
+extern const int bufsize = 10;
 extern const double pi;
 
 #define YEEFEA_NS_OPEN namespace yeefea {

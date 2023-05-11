@@ -112,6 +112,18 @@ void demo_string_literal()
   std::cout << wa << u << std::endl;
 }
 
+struct A
+{
+  int i;
+};
+
+/*
+C++17 Standard 11.6
+To default-initialize an object of type T means:
+(7.1) — If T is a (possibly cv-qualified) class type (Clause 12), constructors are considered. The applicable constructors are enumerated (16.3.1.3), and the best one for the initializer () is chosen through overload resolution (16.3). The constructor thus selected is called, with an empty argument list, to initialize the object.
+(7.2) — If T is an array type, each element is default-initialized.
+(7.3) — Otherwise, no initialization is performed.
+*/
 void demo_initialization()
 {
   int unit_sold1 = 0;
@@ -135,6 +147,12 @@ void demo_initialization()
 
   double salary = 999.9, wage = salary; // 一行里面定义多个变量，左边定义好之后右边马上就能用了！
   std::cout << "salary = wage = " << wage << std::endl;
+
+  A a;
+  LOG(a.i); // 未初始化
+
+  int iarr[bufsize]; // 未初始化
+  describe_array(std::begin(iarr), std::end(iarr));
 }
 void demo_scope()
 {
@@ -258,7 +276,7 @@ void demo_constexpr()
   // top_const = nullptr;  // error
   constexpr int *must_null = nullptr; // 否则只能用nullptr初始化
   // 底层const需要这样写，constexpr const <typename> *<pointername>  = &xxx;
-  constexpr const int *cpi = &i; // 指向常量i
+  constexpr const int *cpi = &i; // 指向常量i constexpr const连写
   constexpr int *cpj = &j;       // 指向变量j
   std::cout << OUTPUT_VAL(mf) << " "
             << OUTPUT_VAL(limit) << " "

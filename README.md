@@ -137,6 +137,9 @@ https://github.com/cameron314/concurrentqueue
 
 https://github.com/cameron314/readerwriterqueue
 
+### NUMA
+
+- libnuma-dev
 
 ### Kernel bypass
 
@@ -271,7 +274,7 @@ TODO
 
 - [https://www.boost.org/doc/](https://www.boost.org/doc/)
 
-
+- [C++17 Standard](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4659.pdf)
 ## Cheat Sheets
 
 - https://hackingcpp.com/cpp/cheat_sheets.html
