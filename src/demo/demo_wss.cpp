@@ -56,23 +56,13 @@ void on_message(client *c, websocketpp::connection_hdl hdl, message_ptr msg)
   //   std::cout << "Echo failed because: " << ec.message() << std::endl;
   // }
 }
-
+// 参考 https://github.com/microsoft/cpprestsdk/blob/9c654889efb6f5bda69fe8f52b3f7d3d3fb56cd8/Release/src/websockets/client/ws_client_wspp.cpp#L185
 static context_ptr on_tls_init()
 {
   // establishes a SSL connection
   context_ptr ctx = std::make_shared<boost::asio::ssl::context>(boost::asio::ssl::context::sslv23);
-
-  try
-  {
-    ctx->set_options(boost::asio::ssl::context::default_workarounds |
-                     boost::asio::ssl::context::no_sslv2 |
-                     boost::asio::ssl::context::no_sslv3 |
-                     boost::asio::ssl::context::single_dh_use);
-  }
-  catch (std::exception &e)
-  {
-    std::cout << "Error in context pointer: " << e.what() << std::endl;
-  }
+  ctx->set_default_verify_paths();
+  ctx->set_options(boost::asio::ssl::context::default_workarounds);
   return ctx;
 }
 

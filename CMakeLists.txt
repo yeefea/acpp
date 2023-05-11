@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
-cmake_policy(SET CMP0097 NEW)
+if(POLICY CMP0097)
+  cmake_policy(SET CMP0097 NEW)
+endif()
 
-project(acpp VERSION 1.0)
+project(acpp VERSION 1.0 LANGUAGES CXX)
 
 cmake_host_system_information(RESULT OS_NAME QUERY OS_NAME)  # OS_NAME
 
