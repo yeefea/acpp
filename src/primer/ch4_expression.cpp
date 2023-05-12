@@ -223,7 +223,10 @@ void demo_type_conversion()
   // (type)expr C语言风格
   char *pc2 = (char *)ip; // 等价于reinterpret_cast
 }
-
+int some_func()
+{
+  return 1;
+}
 void demo_op_precedence()
 {
   int i = 0;
@@ -282,9 +285,11 @@ void demo_op_precedence()
   delete new int;
   bool ok = true;
   LOG(!!!!!!!!ok);
-  LOG(sizeof sizeof 1);
+  LOG(sizeof sizeof sizeof sizeof 1);
 
   std::cout << (1 & 2) << std::endl;
+
+  auto x = (double)some_func(); // 函数调用优先级比cast高
 }
 
 int main(int argc, char **argv)

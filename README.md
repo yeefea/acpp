@@ -157,6 +157,8 @@ https://github.com/cameron314/readerwriterqueue
 
 - Boost interprocess https://stackoverflow.com/questions/22207546/shared-memory-ipc-synchronization-lock-free
 
+- https://mikewei.github.io/doc/shm_container/
+
 ## Graphics
 
 ### Dear ImGUI
@@ -278,3 +280,9 @@ TODO
 ## Cheat Sheets
 
 - https://hackingcpp.com/cpp/cheat_sheets.html
+
+## Interview
+
+- https://csguide.cn/cpp/
+
+- https://github.com/huihut/interview#database

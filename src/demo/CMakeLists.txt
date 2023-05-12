@@ -41,3 +41,13 @@ target_link_libraries(async_daytime_server
 )
 
 add_executable(demo_raii demo_raii.cpp)
+
+add_executable(demo_shm_write
+  demo_shm_write.cpp
+)
+
+add_executable(demo_shm_read
+  demo_shm_read.cpp
+)
+
+add_executable(demo_thread demo_thread.cpp)

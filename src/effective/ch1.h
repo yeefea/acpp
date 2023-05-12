@@ -1,5 +1,9 @@
 #pragma once
+
 #include <iostream>
+#include <cstddef>
+#include <cstring>
+
 // const 代替#define
 const double ASPECT_RATIO = 1.653;
 const char *const author_name = "yeefea";
@@ -18,7 +22,7 @@ private:
 
 public:
   const int *get_scores() const { return scores; }
-  
+
   static GamePlayer gp1; // 静态成员可以是他所属的类类型
 };
 
@@ -53,4 +57,36 @@ public:
 private:
   int n;
   int d;
+};
+
+// TesxtBlock demo const and mutable
+class TextBlock
+{
+
+public:
+  std::size_t length() const
+  {
+    if (!lengthIsValid)
+    {
+      textLength = std::strlen(text);
+      lengthIsValid = true;
+    }
+
+    return textLength;
+  }
+
+  const char &operator[](std::size_t pos) const
+  {
+    return text[pos];
+  }
+
+  char &operator[](std::size_t pos) // 总是non-const调用const
+  {
+    return const_cast<char &>(static_cast<const TextBlock &>(*this)[pos]);
+  }
+
+private:
+  char *text;
+  mutable std::size_t textLength; // 可以在const method里修改
+  mutable std::size_t lengthIsValid;
 };
