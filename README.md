@@ -1,28 +1,45 @@
 # Accelerated C++ Playground
 
-## cpprestsdk
+## Books
 
-### MacOS
-```
-brew install cmake git boost openssl libressl ninja cpprestsdk
-```
+- C++ Primer
+- Effective C++
+- More Effective C++
+- Effective Modern C++
+- ...
 
-include path
-```json
-[
-    "${workspaceFolder}/include",
-    "${workspaceFolder}/src/apue3e/include",
-    "/opt/homebrew/include",
-    "/usr/local/lib",
-    "/opt/homebrew/opt/libressl/include"
-]
+## Cheatsheets
+- [https://github.com/mortennobel/cpp-cheatsheet](https://github.com/mortennobel/cpp-cheatsheet)
 
-```
+- [https://github.com/AnthonyCalandra/modern-cpp-features](https://github.com/AnthonyCalandra/modern-cpp-features)
 
-## Libevent
+- 把难读的指针类型声明翻译成人话 [https://cdecl.org/](https://cdecl.org/)
+
+## Tutorials
+
+- 指针声明 http://unixwiz.net/techtips/reading-cdecl.html
+
+- 指针声明 https://faculty.cs.niu.edu/~mcmahon/CS241/Notes/reading_declarations.html
+
+- Cherno's C++ Tutorial https://www.bilibili.com/video/BV1VJ411M7WR/?spm_id_from=333.337.search-card.all.click&vd_source=ac5b43cd098d981ddf36ad289c0ad346
 
 
-## Database
+## Cheat Sheets
+
+- https://hackingcpp.com/cpp/cheat_sheets.html
+
+## Interview
+
+- https://csguide.cn/cpp/
+
+- https://github.com/huihut/interview#database
+
+## Essential Libraries
+### CPPRESTSDK
+
+
+### Libevent
+
 
 ### MySQL
 
@@ -36,12 +53,12 @@ sudo apt-get install libmysqlclient-dev libmysqlcppconn-dev
 ### PostgreSQL
 
 
-## Redis
+### Redis
 
 hiredis
+
 redis-plus-plus
 
-## MQ
 
 ### ZeroMQ
 ```bash
@@ -57,8 +74,6 @@ https://github.com/confluentinc/librdkafka
 ```bash
 sudo apt install librdkafka-dev
 ```
-
-## Libraries
 
 ### Boost
 
@@ -116,6 +131,8 @@ https://github.com/openssl/openssl
 
 - libssl
 - libcrypto
+- libsodium
+- cryptopp https://github.com/weidai11/cryptopp
 
 ### Linear Algebra
 
@@ -136,6 +153,8 @@ https://arma.sourceforge.net/
 https://github.com/cameron314/concurrentqueue
 
 https://github.com/cameron314/readerwriterqueue
+
+Boost lockfree
 
 ### NUMA
 
@@ -239,29 +258,6 @@ TODO
 
 TODO
 
-
-## Cheatsheets
-- [https://github.com/mortennobel/cpp-cheatsheet](https://github.com/mortennobel/cpp-cheatsheet)
-
-- [https://github.com/AnthonyCalandra/modern-cpp-features](https://github.com/AnthonyCalandra/modern-cpp-features)
-
-- 把难读的指针类型声明翻译成英语[https://cdecl.org/](https://cdecl.org/)
-
-## Tutorials
-
-- 指针声明 http://unixwiz.net/techtips/reading-cdecl.html
-
-- 指针声明 https://faculty.cs.niu.edu/~mcmahon/CS241/Notes/reading_declarations.html
-
-- Cherno's C++ Tutorial https://www.bilibili.com/video/BV1VJ411M7WR/?spm_id_from=333.337.search-card.all.click&vd_source=ac5b43cd098d981ddf36ad289c0ad346
-
-## Books
-
-- C++ Primer
-- Effective C++
-- More Effective C++
-- Effective Modern C++
-
 ## References
 
 - [https://cplusplus.com/reference/](https://cplusplus.com/reference/)
@@ -277,12 +273,3 @@ TODO
 - [https://www.boost.org/doc/](https://www.boost.org/doc/)
 
 - [C++17 Standard](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4659.pdf)
-## Cheat Sheets
-
-- https://hackingcpp.com/cpp/cheat_sheets.html
-
-## Interview
-
-- https://csguide.cn/cpp/
-
-- https://github.com/huihut/interview#database
